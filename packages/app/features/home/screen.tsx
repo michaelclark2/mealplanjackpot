@@ -3,19 +3,24 @@ import { Row } from 'app/design/layout'
 import { View } from 'app/design/view'
 
 import { MotiLink } from 'solito/moti'
-
-import { useQuery } from 'convex/react'
-import { api } from 'app/convex/_generated/api'
+import { useEffect, useState } from 'react'
 
 export function HomeScreen() {
-  const user = useQuery(api.users.get)
+  const [recipes, setRecipes] = useState([])
+  useEffect(() => {
+    fetch(process.env.NEXT_PUBLIC_CONVEX_SITE_URL! + '/getRandom').then(
+      (res) => {
+        res.json().then(setRecipes)
+      },
+    )
+  }, [])
 
   return (
     <View className="flex-1 items-center justify-center p-3">
       <H1>Welcome to Meal Plan Jackpot.</H1>
       <View className="max-w-xl">
-        {user?.length > 0 ? (
-          <P className="text-center">Hello, {user[0].name}</P>
+        {recipes?.length > 0 ? (
+          recipes?.map((r) => <P className="text-center">{r.title}</P>)
         ) : (
           <P className="text-center">Let's get spinning!</P>
         )}
