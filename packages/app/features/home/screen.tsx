@@ -3,18 +3,22 @@ import { Row } from 'app/design/layout'
 import { View } from 'app/design/view'
 
 import { MotiLink } from 'solito/moti'
-import { Stack } from 'expo-router'
+
+import { useQuery } from 'convex/react'
+import { api } from 'app/convex/_generated/api'
 
 export function HomeScreen() {
+  const user = useQuery(api.users.get)
+
   return (
     <View className="flex-1 items-center justify-center p-3">
-      <H1>Welcome to Solito.</H1>
+      <H1>Welcome to Meal Plan Jackpot.</H1>
       <View className="max-w-xl">
-        <P className="text-center">
-          Here is a basic starter to show you how you can navigate from one
-          screen to another. This screen uses the same code on Next.js and React
-          Native.
-        </P>
+        {user?.length > 0 ? (
+          <P className="text-center">Hello, {user[0].name}</P>
+        ) : (
+          <P className="text-center">Let's get spinning!</P>
+        )}
         <P className="text-center">
           Solito is made by{' '}
           <A

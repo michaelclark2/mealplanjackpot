@@ -26,5 +26,9 @@
     "**/expo-router",
     "**/expo-router/**"
   ],
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.4.1",
+  "dependencies": {
+    "convex": "^1.8.0",
+    "react-native-dotenv": "^3.4.9"
+  }
 }
