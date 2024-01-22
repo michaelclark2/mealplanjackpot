@@ -8,11 +8,12 @@ import { useEffect, useState } from 'react'
 export function HomeScreen() {
   const [recipes, setRecipes] = useState([])
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_CONVEX_SITE_URL! + '/getRandom').then(
-      (res) => {
-        res.json().then(setRecipes)
-      },
-    )
+    fetch(
+      (process.env.NEXT_PUBLIC_CONVEX_SITE ??
+        process.env.EXPO_PUBLIC_CONVEX_SITE) + '/getRandom',
+    ).then((res) => {
+      res.json().then(setRecipes)
+    })
   }, [])
 
   return (
