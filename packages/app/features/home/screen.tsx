@@ -1,11 +1,7 @@
-import { A, H1, P, Text, TextLink } from 'app/design/typography'
-import { Row } from 'app/design/layout'
+import { P, Text } from 'app/design/typography'
 import { Button, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
-import { theme } from 'app/design/tailwind/theme'
-
-import { MotiLink } from 'solito/moti'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export function HomeScreen() {
   const [recipes, setRecipes] = useState([
