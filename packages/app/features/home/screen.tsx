@@ -21,6 +21,7 @@ export function HomeScreen() {
   }
   return (
     <ScrollView
+      className="p-4 md:p-8"
       contentContainerStyle={{
         display: 'flex',
         minHeight: '100%',
