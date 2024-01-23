@@ -37,12 +37,12 @@ export function HomeScreen() {
         )}
       </View>
       <View className="w-full max-w-7xl flex-1 flex-col items-center justify-between">
-        <View className="m-3 md:absolute md:self-center">
+        <View className="m-3 sm:absolute sm:self-center">
           <SpinButton className="" onPress={() => getRandomRecipes()}>
             <Text className="font-extrabold text-white">Spin</Text>
           </SpinButton>
         </View>
-        <View className="min-h-32 pointer-events-none w-full flex-1 flex-row items-start justify-center space-x-3 md:m-10 md:justify-between">
+        <View className="min-h-32 pointer-events-none w-full flex-1 flex-row items-start justify-around space-x-3 sm:m-10 sm:justify-between">
           <Button
             className="pointer-events-auto relative w-24"
             onPress={() => console.log('clicky button')}
