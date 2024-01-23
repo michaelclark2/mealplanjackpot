@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Provider>
-        <nav className="curs mb-2 flex w-full justify-between bg-orange-500 p-2 px-8 text-white shadow">
+        <nav className="mb-2 flex w-full justify-between bg-orange-500 p-2 px-8 text-white shadow">
           <div>
             <h1 className="cursor-default text-lg font-bold">
               Meal Plan Jackpot
