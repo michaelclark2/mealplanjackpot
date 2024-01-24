@@ -36,7 +36,20 @@ export default function Root() {
           }}
           name="index"
         />
-        <Tabs.Screen options={{ title: 'Plans' }} name="user/[id]" />
+        <Tabs.Screen
+          options={{
+            title: 'Plans',
+            tabBarIcon: ({ size, color, focused }) => (
+              <Icon
+                name="calendar-outline"
+                width={size}
+                height={size}
+                fill={color}
+              />
+            ),
+          }}
+          name="user/[id]"
+        />
       </Tabs>
     </Provider>
   )
