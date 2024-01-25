@@ -7,14 +7,22 @@ import colors from 'tailwindcss/colors'
 const RecipeCard = ({ recipe }) => {
   const renderBadges = () => {
     const badges = []
-
     if (recipe.vegan)
-      badges.push(<Text className="text-lg text-green-700">&#9445;</Text>)
+      badges.push(
+        <Text key="vegan" className="text-lg text-green-700">
+          &#9445;
+        </Text>,
+      )
     if (recipe.vegetarian && !recipe.vegan)
-      badges.push(<Text className="text-lg text-green-700">V</Text>)
+      badges.push(
+        <Text key="vegetarian" className="text-lg text-green-700">
+          V
+        </Text>,
+      )
     if (recipe.readyInMinutes <= 30)
       badges.push(
         <Icon
+          key="quick"
           name="flash"
           width={18}
           height={18}
@@ -22,9 +30,17 @@ const RecipeCard = ({ recipe }) => {
         />,
       )
     if (recipe.dairyFree)
-      badges.push(<Text className="text-lg text-red-500">&spades;</Text>)
+      badges.push(
+        <Text key="dairyfree" className="text-lg text-red-500">
+          &spades;
+        </Text>,
+      )
     if (recipe.glutenFree)
-      badges.push(<Text className="text-lg text-yellow-700">&clubs;</Text>)
+      badges.push(
+        <Text key="glutenfree" className="text-lg text-yellow-700">
+          &clubs;
+        </Text>,
+      )
     return badges
   }
 
