@@ -5,6 +5,29 @@ import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
 
 const RecipeCard = ({ recipe }) => {
+  const renderBadges = () => {
+    const badges = []
+
+    if (recipe.vegan)
+      badges.push(<Text className="text-lg text-green-700">&#9445;</Text>)
+    if (recipe.vegetarian && !recipe.vegan)
+      badges.push(<Text className="text-lg text-green-700">V</Text>)
+    if (recipe.readyInMinutes <= 30)
+      badges.push(
+        <Icon
+          name="flash"
+          width={18}
+          height={18}
+          fill={colors.yellow['500']}
+        />,
+      )
+    if (recipe.dairyFree)
+      badges.push(<Text className="text-lg text-red-500">&spades;</Text>)
+    if (recipe.glutenFree)
+      badges.push(<Text className="text-lg text-yellow-700">&clubs;</Text>)
+    return badges
+  }
+
   return (
     <View className="m-2 w-[45%] min-w-[125px] flex-col items-center justify-start rounded-3xl bg-white shadow sm:mx-6 sm:w-1/5">
       <View className="w-full object-cover p-1">
@@ -31,17 +54,8 @@ const RecipeCard = ({ recipe }) => {
         <View className="text-wrap">
           <Text className="text-lg font-bold leading-5">{recipe.title}</Text>
         </View>
-        <View className="w-full flex-row items-center justify-center">
-          <Icon
-            name="flash"
-            width={18}
-            height={18}
-            fill={colors.yellow['500']}
-          />
-          <Text className="text-lg text-red-500">&spades;</Text>
-          <Text className="text-lg text-yellow-700">&clubs;</Text>
-          <Text className="text-lg text-green-700">V</Text>
-          <Text className="text-lg text-green-700">&#9445;</Text>
+        <View className="w-full flex-row items-center justify-center space-x-2">
+          {renderBadges()}
         </View>
         <View className="grow items-center justify-end sm:flex-row sm:items-end">
           <View className="mr-1 flex-row items-center justify-center">
