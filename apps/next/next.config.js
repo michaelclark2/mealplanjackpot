@@ -8,6 +8,9 @@ const nextConfig = {
   // https://github.com/nandorojo/moti/issues/224
   // once that gets fixed, set this back to true
   reactStrictMode: false,
+  images: {
+    domains: ['spoonacular.com'],
+  },
   transpilePackages: [
     'react-native',
     'react-native-web',
@@ -17,6 +20,7 @@ const nextConfig = {
     'react-native-reanimated',
     'nativewind',
     'react-native-gesture-handler',
+    'react-native-svg',
   ],
 }
 
