@@ -3,8 +3,9 @@ import { View } from 'app/design/view'
 import { SolitoImage } from 'solito/image'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
+import { Pressable } from 'app/design/button'
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, lockRecipe }) => {
   const renderBadges = () => {
     const badges = []
     if (recipe.vegan)
@@ -43,21 +44,36 @@ const RecipeCard = ({ recipe }) => {
       )
     return badges
   }
-
+  const lockedStyles =
+    ' ' +
+    (recipe.locked
+      ? 'sm:outline sm:outline-blue-500 border-2 border-blue-500 sm:border-0'
+      : '')
   return (
-    <View className="m-2 w-[45%] min-w-[125px] flex-col items-center justify-start rounded-3xl bg-white shadow sm:mx-6 sm:w-1/5">
+    <View
+      className={
+        'm-2 w-[45%] min-w-[125px] flex-col items-center justify-start rounded-3xl bg-white shadow sm:mx-6 sm:w-1/5' +
+        lockedStyles
+      }
+    >
       <View className="w-full object-cover p-1">
-        <View className="absolute left-3 top-3 rounded-full bg-orange-500/75 p-1">
+        <Pressable
+          className={
+            'absolute left-3 top-3 rounded-full p-1 ' +
+            (recipe.locked ? 'bg-orange-500' : 'bg-orange-500/75')
+          }
+          onPress={() => lockRecipe(recipe)}
+        >
           <Icon
-            name="unlock"
+            name={recipe.locked ? 'lock' : 'unlock'}
             height={18}
             width={18}
-            opacity={0.75}
+            opacity={recipe.locked ? 1 : 0.75}
             fill={'white'}
           />
-        </View>
+        </Pressable>
         <SolitoImage
-          src={recipe.image}
+          src={recipe?.image}
           width={100}
           height={100}
           alt={recipe.title}

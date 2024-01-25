@@ -5,12 +5,7 @@ import { useState } from 'react'
 import RecipeCard from 'app/components/RecipeCard'
 
 export function HomeScreen() {
-  const [recipes, setRecipes] = useState([
-    { title: 'chicken and cheese' },
-    { title: 'macaroni and cheese' },
-    { title: 'beef and cheese' },
-    { title: 'fish and cheese' },
-  ])
+  const [recipes, setRecipes] = useState([])
 
   const getRandomRecipes = () => {
     fetch(
@@ -19,6 +14,15 @@ export function HomeScreen() {
     ).then((res) => {
       res.json().then(setRecipes)
     })
+  }
+  const lockRecipe = (recipe) => {
+    const recipeIndex = recipes.findIndex((r) => r.id === recipe.id)
+    const lockedRecipe = recipes[recipeIndex]
+    if (lockedRecipe) {
+      const newRecipes = [...recipes]
+      newRecipes[recipeIndex].locked = !newRecipes[recipeIndex].locked
+      setRecipes(newRecipes)
+    }
   }
   return (
     <ScrollView
@@ -33,7 +37,9 @@ export function HomeScreen() {
       <View className="min-h-[50%] w-full max-w-7xl rounded-3xl bg-slate-200">
         <View className="flex w-full flex-row flex-wrap justify-center p-2">
           {recipes?.length > 0 ? (
-            recipes?.map((r) => <RecipeCard key={r.title} recipe={r} />)
+            recipes?.map((r) => (
+              <RecipeCard lockRecipe={lockRecipe} key={r.title} recipe={r} />
+            ))
           ) : (
             <P className="text-center">Let's get spinning!</P>
           )}

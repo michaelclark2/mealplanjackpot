@@ -21,6 +21,7 @@ const nextConfig = {
     'nativewind',
     'react-native-gesture-handler',
     'react-native-svg',
+    'react-native-eva-icons',
   ],
 }
 
