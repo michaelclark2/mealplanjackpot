@@ -22,6 +22,8 @@ const RecipeCard = ({ recipe }) => {
           width={100}
           height={100}
           alt={recipe.title}
+          contentFit="cover"
+          contentPosition="center"
           style={{ borderRadius: 24, width: '100%', zIndex: -1 }}
         />
       </View>
