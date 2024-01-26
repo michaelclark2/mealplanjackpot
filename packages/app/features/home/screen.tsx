@@ -6,13 +6,33 @@ import RecipeCard from 'app/components/RecipeCard'
 
 export function HomeScreen() {
   const [recipes, setRecipes] = useState([])
+  const [numberOfRecipes, setNumberOfRecipes] = useState(5)
+  const lockedRecipes = recipes.filter((r) => r.locked)
+  const lockedRecipeCount = lockedRecipes.length
 
   const getRandomRecipes = () => {
-    fetch(
+    const numberOfRecipesToSpin = numberOfRecipes - lockedRecipeCount
+
+    const url = new URL(
       (process.env.NEXT_PUBLIC_CONVEX_SITE ??
         process.env.EXPO_PUBLIC_CONVEX_SITE) + '/getRandom',
-    ).then((res) => {
-      res.json().then(setRecipes)
+    )
+    url.searchParams.set('number', numberOfRecipesToSpin.toString())
+    fetch(url).then((res) => {
+      res.json().then((recipeResults) => {
+        const newRecipes = [...recipes]
+        const recipesToReplace = recipes.filter((r) => !r.locked)
+        recipeResults.forEach((newRecipe) => {
+          if (recipesToReplace.length) {
+            const oldRecipe = recipesToReplace.pop()
+            const index = newRecipes.findIndex((r) => r.id === oldRecipe.id)
+            newRecipes.splice(index, 1, newRecipe)
+          } else {
+            newRecipes.push(newRecipe)
+          }
+        })
+        setRecipes(newRecipes)
+      })
     })
   }
   const lockRecipe = (recipe) => {
@@ -24,6 +44,7 @@ export function HomeScreen() {
       setRecipes(newRecipes)
     }
   }
+
   return (
     <ScrollView
       className="p-4 md:p-8"
@@ -38,7 +59,7 @@ export function HomeScreen() {
         <View className="flex w-full flex-row flex-wrap justify-center p-2">
           {recipes?.length > 0 ? (
             recipes?.map((r) => (
-              <RecipeCard lockRecipe={lockRecipe} key={r.title} recipe={r} />
+              <RecipeCard lockRecipe={lockRecipe} key={r.id} recipe={r} />
             ))
           ) : (
             <P className="text-center">Let's get spinning!</P>
