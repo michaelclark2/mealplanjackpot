@@ -4,6 +4,7 @@ import { SolitoImage } from 'solito/image'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
 import { Pressable } from 'app/design/button'
+import { ActivityIndicator } from 'react-native'
 
 const RecipeCard = ({ recipe, lockRecipe }) => {
   const renderBadges = () => {
@@ -49,10 +50,18 @@ const RecipeCard = ({ recipe, lockRecipe }) => {
     (recipe.locked
       ? 'sm:outline sm:outline-blue-500 border-2 border-blue-500 sm:border-0'
       : '')
+
+  if (recipe.loading) {
+    return (
+      <View className="m-2 min-h-[300px] w-[45%] min-w-[125px] flex-col items-center justify-center rounded-3xl bg-white shadow sm:mx-6 sm:w-1/5">
+        <ActivityIndicator size="large" />
+      </View>
+    )
+  }
   return (
     <View
       className={
-        'm-2 w-[45%] min-w-[125px] flex-col items-center justify-start rounded-3xl bg-white shadow sm:mx-6 sm:w-1/5' +
+        'min-h-52 m-2 w-[45%] min-w-[125px] flex-col items-center justify-start rounded-3xl bg-white shadow sm:mx-6 sm:w-1/5' +
         lockedStyles
       }
     >

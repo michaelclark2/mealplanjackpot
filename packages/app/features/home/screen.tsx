@@ -18,6 +18,20 @@ export function HomeScreen() {
         process.env.EXPO_PUBLIC_CONVEX_SITE) + '/getRandom',
     )
     url.searchParams.set('number', numberOfRecipesToSpin.toString())
+
+    const loadingRecipes = recipes.length
+      ? []
+      : Array(numberOfRecipesToSpin).fill({ loading: true })
+    recipes.forEach((recipe) => {
+      if (!recipe.locked) {
+        recipe.loading = true
+        loadingRecipes.push(recipe)
+      } else {
+        loadingRecipes.push(recipe)
+      }
+    })
+    setRecipes(loadingRecipes)
+
     fetch(url).then((res) => {
       res.json().then((recipeResults) => {
         const newRecipes = recipeResults
