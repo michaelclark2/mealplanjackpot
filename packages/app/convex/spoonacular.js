@@ -6,8 +6,7 @@ export const complexSearch = internalAction({
     number: v.string(),
   },
   handler: async (ctx, args) => {
-    console.log(args.number)
-    if (Number(args.number) <= 0 || Number(args.number) >= 8)
+    if (Number(args.number) < 0 || Number(args.number) > 7)
       throw new ConvexError('Query parameters are incorrect')
     const baseURL = new URL('https://api.spoonacular.com/recipes/complexSearch')
     const defaultParams = {

@@ -20,16 +20,10 @@ export function HomeScreen() {
     url.searchParams.set('number', numberOfRecipesToSpin.toString())
     fetch(url).then((res) => {
       res.json().then((recipeResults) => {
-        const newRecipes = [...recipes]
-        const recipesToReplace = recipes.filter((r) => !r.locked)
-        recipeResults.forEach((newRecipe) => {
-          if (recipesToReplace.length) {
-            const oldRecipe = recipesToReplace.pop()
-            const index = newRecipes.findIndex((r) => r.id === oldRecipe.id)
-            newRecipes.splice(index, 1, newRecipe)
-          } else {
-            newRecipes.push(newRecipe)
-          }
+        const newRecipes = recipeResults
+        lockedRecipes.forEach((recipe) => {
+          const index = recipes.indexOf(recipe)
+          newRecipes.splice(index, 0, recipe)
         })
         setRecipes(newRecipes)
       })
