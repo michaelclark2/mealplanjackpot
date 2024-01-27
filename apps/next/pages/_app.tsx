@@ -3,6 +3,7 @@ import 'setimmediate'
 
 import { Provider } from 'app/provider'
 import Navbar from 'app/components/Navbar'
+import Footer from 'app/components/Footer'
 import Head from 'next/head'
 import React from 'react'
 
@@ -20,11 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider>
         <Navbar />
         <Component {...pageProps} />
-        <footer className="flex justify-center">
-          <p className="p-2 text-xs">
-            Created with 💖 by Michael Clark. Recipes provided by Spoonacular.
-          </p>
-        </footer>
+        <Footer />
       </Provider>
     </>
   )
