@@ -6,7 +6,7 @@ import RecipeCard from 'app/components/RecipeCard'
 
 export function HomeScreen() {
   const [recipes, setRecipes] = useState([])
-  const [numberOfRecipes, setNumberOfRecipes] = useState(5)
+  const [numberOfRecipes, setNumberOfRecipes] = useState(4)
   const lockedRecipes = recipes.filter((r) => r.locked)
   const lockedRecipeCount = lockedRecipes.length
 

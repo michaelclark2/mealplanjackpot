@@ -4,9 +4,18 @@ import { SolitoImage } from 'solito/image'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
 import { Pressable } from 'app/design/button'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Linking } from 'react-native'
 
 const RecipeCard = ({ recipe, lockRecipe }) => {
+  const viewRecipeURL = () => {
+    Linking.canOpenURL(recipe.sourceUrl).then((supported) => {
+      if (supported) {
+        Linking.openURL(recipe.sourceUrl)
+      } else {
+        console.log('Cannot open url for some reason')
+      }
+    })
+  }
   const renderBadges = () => {
     const badges = []
     if (recipe.vegan)
@@ -65,13 +74,15 @@ const RecipeCard = ({ recipe, lockRecipe }) => {
         lockedStyles
       }
     >
-      <View className="w-full object-cover p-1">
-        <Pressable
+      <Pressable
+        className="w-full object-cover p-1"
+        onPress={() => lockRecipe(recipe)}
+      >
+        <View
           className={
             'absolute left-3 top-3 rounded-full p-1 ' +
             (recipe.locked ? 'bg-orange-500' : 'bg-orange-500/75')
           }
-          onPress={() => lockRecipe(recipe)}
         >
           <Icon
             name={recipe.locked ? 'lock' : 'unlock'}
@@ -80,7 +91,7 @@ const RecipeCard = ({ recipe, lockRecipe }) => {
             opacity={recipe.locked ? 1 : 0.75}
             fill={'white'}
           />
-        </Pressable>
+        </View>
         <SolitoImage
           src={recipe?.image}
           width={100}
@@ -90,11 +101,11 @@ const RecipeCard = ({ recipe, lockRecipe }) => {
           contentPosition="center"
           style={{ borderRadius: 24, width: '100%', zIndex: -1 }}
         />
-      </View>
+      </Pressable>
       <View className="m-2 w-full grow items-center justify-between space-y-2 p-2">
-        <View className="text-wrap">
+        <Pressable className="text-wrap" onPress={() => viewRecipeURL()}>
           <Text className="text-lg font-bold leading-5">{recipe.title}</Text>
-        </View>
+        </Pressable>
         <View className="w-full flex-row items-center justify-center space-x-2">
           {renderBadges()}
         </View>
