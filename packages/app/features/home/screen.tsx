@@ -3,8 +3,10 @@ import { Button, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
 import { useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
+import { useConvexAuth } from 'convex/react'
 
 export function HomeScreen() {
+  const { isAuthenticated } = useConvexAuth()
   const [recipes, setRecipes] = useState<Array<SpoonacularRecipe>>([])
   const [numberOfRecipes, setNumberOfRecipes] = useState(4)
   const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
@@ -80,7 +82,12 @@ export function HomeScreen() {
             <Text className="font-extrabold text-white">Spin</Text>
           </SpinButton>
         </View>
-        <View className="min-h-32 pointer-events-none mb-40 w-full flex-1 flex-row items-start justify-around space-x-3 sm:m-10 sm:justify-between">
+        <View
+          className={
+            'min-h-32 pointer-events-none mb-40 w-full flex-1 flex-row items-start justify-around space-x-3 sm:m-10 sm:justify-between ' +
+            (isAuthenticated ? '' : 'hidden')
+          }
+        >
           <Button
             className="pointer-events-auto relative w-24"
             onPress={() => console.log('clicky button')}
