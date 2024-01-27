@@ -2,12 +2,12 @@ import { P, Text } from 'app/design/typography'
 import { Button, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
 import { useState } from 'react'
-import RecipeCard from 'app/components/RecipeCard'
+import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
 
 export function HomeScreen() {
-  const [recipes, setRecipes] = useState([])
+  const [recipes, setRecipes] = useState<Array<SpoonacularRecipe>>([])
   const [numberOfRecipes, setNumberOfRecipes] = useState(4)
-  const lockedRecipes = recipes.filter((r) => r.locked)
+  const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
   const lockedRecipeCount = lockedRecipes.length
 
   const getRandomRecipes = () => {
@@ -22,7 +22,7 @@ export function HomeScreen() {
     const loadingRecipes = recipes.length
       ? []
       : Array(numberOfRecipesToSpin).fill({ loading: true })
-    recipes.forEach((recipe) => {
+    recipes.forEach((recipe: SpoonacularRecipe) => {
       if (!recipe.locked) {
         recipe.loading = true
         loadingRecipes.push(recipe)
@@ -43,7 +43,7 @@ export function HomeScreen() {
       })
     })
   }
-  const lockRecipe = (recipe) => {
+  const lockRecipe = (recipe: SpoonacularRecipe) => {
     const recipeIndex = recipes.findIndex((r) => r.id === recipe.id)
     const lockedRecipe = recipes[recipeIndex]
     if (lockedRecipe) {

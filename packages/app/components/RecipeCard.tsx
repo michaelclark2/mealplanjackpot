@@ -6,7 +6,28 @@ import colors from 'tailwindcss/colors'
 import { Pressable } from 'app/design/button'
 import { ActivityIndicator, Linking } from 'react-native'
 
-const RecipeCard = ({ recipe, lockRecipe }) => {
+export interface SpoonacularRecipe {
+  id: number
+  title: string
+  sourceUrl: string
+  sourceName: string
+  image: string
+  vegan: boolean
+  vegetarian: boolean
+  dairyFree: boolean
+  glutenFree: boolean
+  readyInMinutes: number
+  locked?: boolean
+  loading?: boolean
+}
+
+const RecipeCard = ({
+  recipe,
+  lockRecipe,
+}: {
+  recipe: SpoonacularRecipe
+  lockRecipe: (recipe: SpoonacularRecipe) => void
+}) => {
   const viewRecipeURL = () => {
     Linking.canOpenURL(recipe.sourceUrl).then((supported) => {
       if (supported) {

@@ -6,6 +6,6 @@ const convex = new ConvexReactClient(
     unsavedChangesWarning: false,
   },
 )
-export default function Convex({ children }) {
+export default function Convex({ children }: { children: any }) {
   return <ConvexProvider client={convex}>{children}</ConvexProvider>
 }
