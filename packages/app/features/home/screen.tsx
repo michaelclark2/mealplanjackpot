@@ -4,9 +4,12 @@ import { View, ScrollView } from 'app/design/view'
 import { useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
 import { useConvexAuth } from 'convex/react'
+import { useRouter } from 'solito/router'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
+  const router = useRouter()
+
   const [recipes, setRecipes] = useState<Array<SpoonacularRecipe>>([])
   const [numberOfRecipes, setNumberOfRecipes] = useState(4)
   const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
@@ -96,7 +99,7 @@ export function HomeScreen() {
           </Button>
           <Button
             className="pointer-events-auto relative w-24 bg-orange-500"
-            onPress={() => console.log('clicky button')}
+            onPress={() => router.push('/settings')}
           >
             <Text className="text-center text-white">Settings</Text>
           </Button>

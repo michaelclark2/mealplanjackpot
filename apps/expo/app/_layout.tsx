@@ -48,11 +48,6 @@ export default function Root() {
                       <Text>Login</Text>
                     </Button>
                   </SignedOut>
-                  <SignedIn>
-                    <SignOutButton>
-                      <Text>Logout</Text>
-                    </SignOutButton>
-                  </SignedIn>
                 </View>
               )
             },
@@ -82,6 +77,10 @@ export default function Root() {
             ),
           }}
           name="user/[id]"
+        />
+        <Tabs.Screen
+          options={{ href: null, title: 'Settings', headerLeft: BackButton }}
+          name="settings/index"
         />
         <Tabs.Screen
           name="user/signin"
