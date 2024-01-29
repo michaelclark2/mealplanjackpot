@@ -42,9 +42,7 @@ export default function SignInScreen() {
       >
         {isError ? (
           <View className="items-center">
-            <Text className="text-red-500">
-              Oops! That didn't work, try again
-            </Text>
+            <Text className="text-red-500">Oops! That didn't work</Text>
           </View>
         ) : (
           <View>
