@@ -38,12 +38,12 @@ export default function Navbar() {
           </li>
           <li>
             {isAuthenticated ? (
-              <StyledSignOutButton className="rounded bg-green-500 p-1.5 px-3">
-                <Text>Logout</Text>
+              <StyledSignOutButton className="cursor-pointer rounded bg-green-500 p-1.5 px-3">
+                <Text className="text-white">Logout</Text>
               </StyledSignOutButton>
             ) : (
-              <StyledSignInButton className="rounded bg-green-500 p-1.5 px-3">
-                <Text>Login</Text>
+              <StyledSignInButton className="cursor-pointer rounded bg-green-500 p-1.5 px-3">
+                <Text className="text-white">Login</Text>
               </StyledSignInButton>
             )}
           </li>
