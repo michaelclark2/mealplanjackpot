@@ -95,7 +95,7 @@ export default function Root() {
           name="user/signup"
           options={{
             href: null,
-            title: 'Sign up for Meal Plan Jackpot',
+            title: 'Sign Up',
             headerLeft: BackButton,
           }}
         />
