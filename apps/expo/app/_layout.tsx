@@ -1,4 +1,4 @@
-import { Provider } from 'app/provider'
+import { Provider } from 'app/provider/index.native'
 import { Tabs } from 'expo-router'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
