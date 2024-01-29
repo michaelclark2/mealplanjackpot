@@ -33,9 +33,9 @@ export default function SignInScreen() {
   }
 
   return (
-    <View className="p-4">
+    <View className="min-h-[50vh] flex-1 p-4">
       <View
-        className="flex min-h-[50%] max-w-7xl rounded-3xl bg-slate-200 p-4"
+        className=" flex-1 rounded-3xl bg-slate-200 p-4"
         style={
           isError ? { borderColor: colors['red']['500'], borderWidth: 2 } : {}
         }
@@ -64,6 +64,7 @@ export default function SignInScreen() {
             secureTextEntry
           />
         </View>
+        <View className="flex-1" />
         <View className="items-center space-y-2">
           <Button onPress={() => signInPress()}>
             <Text>Sign In</Text>
@@ -72,6 +73,7 @@ export default function SignInScreen() {
             <Text>Need an account?</Text>
           </Pressable>
         </View>
+        <View className="flex-1" />
       </View>
     </View>
   )
