@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "@clerk/clerk-expo": "^0.20.1",
     "app": "*",
     "expo": "^49.0.0",
+    "expo-auth-session": "^5.4.0",
     "expo-linking": "~5.0.2",
     "expo-router": "^2.0.5",
     "expo-splash-screen": "~0.20.5",
