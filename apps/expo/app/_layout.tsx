@@ -1,7 +1,22 @@
 import { Provider } from 'app/provider/index.native'
-import { Tabs } from 'expo-router'
+import { Tabs, Link, useRouter } from 'expo-router'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
+import { SignedIn, SignedOut } from '@clerk/clerk-expo'
+import { SignOutButton } from '@clerk/clerk-react'
+import { Text, TextLink } from 'app/design/typography'
+import { Button, Pressable } from 'app/design/button'
+import { View } from 'app/design/view'
+
+const BackButton = () => {
+  return (
+    <View className="p-2">
+      <Link href="/" className="">
+        <Icon name="arrow-back" height={24} width={24} fill={'black'} />
+      </Link>
+    </View>
+  )
+}
 
 export default function Root() {
   return (
@@ -21,7 +36,25 @@ export default function Root() {
           options={{
             headerTitle: 'Meal Plan Jackpot',
             headerTitleStyle: {
-              fontSize: 32,
+              fontSize: 24,
+            },
+            headerRight: () => {
+              const router = useRouter()
+              const goToSignIn = () => router.push('user/signin')
+              return (
+                <View className="p-2">
+                  <SignedOut>
+                    <Button className="p-1" onPress={goToSignIn}>
+                      <Text>Login</Text>
+                    </Button>
+                  </SignedOut>
+                  <SignedIn>
+                    <SignOutButton>
+                      <Text>Logout</Text>
+                    </SignOutButton>
+                  </SignedIn>
+                </View>
+              )
             },
             tabBarLabel: 'Spin',
             tabBarIcon: ({ size, color, focused }) => (
@@ -49,6 +82,22 @@ export default function Root() {
             ),
           }}
           name="user/[id]"
+        />
+        <Tabs.Screen
+          name="user/signin"
+          options={{
+            href: null,
+            title: 'Sign In',
+            headerLeft: BackButton,
+          }}
+        />
+        <Tabs.Screen
+          name="user/signup"
+          options={{
+            href: null,
+            title: 'Sign up for Meal Plan Jackpot',
+            headerLeft: BackButton,
+          }}
         />
       </Tabs>
     </Provider>
