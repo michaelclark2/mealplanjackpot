@@ -22,6 +22,7 @@ const nextConfig = {
     'react-native-gesture-handler',
     'react-native-svg',
     'react-native-eva-icons',
+    '@clerk/clerk-react',
   ],
 }
 
