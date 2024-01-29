@@ -2,6 +2,11 @@ import { useConvexAuth } from 'convex/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SignInButton, SignOutButton } from '@clerk/clerk-react'
+import { Text } from 'app/design/typography'
+import { styled } from 'nativewind'
+
+const StyledSignOutButton = styled(SignOutButton)
+const StyledSignInButton = styled(SignInButton)
 
 export default function Navbar() {
   const router = useRouter()
@@ -33,13 +38,13 @@ export default function Navbar() {
           </li>
           <li>
             {isAuthenticated ? (
-              <SignOutButton className="rounded bg-green-500 p-1.5 px-3">
-                Logout
-              </SignOutButton>
+              <StyledSignOutButton className="rounded bg-green-500 p-1.5 px-3">
+                <Text>Logout</Text>
+              </StyledSignOutButton>
             ) : (
-              <SignInButton className="rounded bg-green-500 p-1.5 px-3">
-                Login
-              </SignInButton>
+              <StyledSignInButton className="rounded bg-green-500 p-1.5 px-3">
+                <Text>Login</Text>
+              </StyledSignInButton>
             )}
           </li>
         </ul>
