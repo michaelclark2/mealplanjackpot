@@ -2,10 +2,9 @@ import { Provider } from 'app/provider/index.native'
 import { Tabs, Link, useRouter } from 'expo-router'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
-import { SignedIn, SignedOut } from '@clerk/clerk-expo'
-import { SignOutButton } from '@clerk/clerk-react'
-import { Text, TextLink } from 'app/design/typography'
-import { Button, Pressable } from 'app/design/button'
+import { SignedOut } from '@clerk/clerk-expo'
+import { Text } from 'app/design/typography'
+import { Button } from 'app/design/button'
 import { View } from 'app/design/view'
 
 const BackButton = () => {
@@ -38,17 +37,18 @@ export default function Root() {
             headerTitleStyle: {
               fontSize: 24,
             },
+            headerRightContainerStyle: { paddingRight: 12 },
             headerRight: () => {
               const router = useRouter()
               const goToSignIn = () => router.push('user/signin')
               return (
-                <View className="p-2">
-                  <SignedOut>
-                    <Button className="p-1" onPress={goToSignIn}>
+                <SignedOut>
+                  <View className="flex-1 justify-center">
+                    <Button className="p-2" onPress={goToSignIn}>
                       <Text>Login</Text>
                     </Button>
-                  </SignedOut>
-                </View>
+                  </View>
+                </SignedOut>
               )
             },
             tabBarLabel: 'Spin',
