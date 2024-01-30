@@ -1,11 +1,13 @@
 import { P, Text } from 'app/design/typography'
-import { Button, SpinButton } from 'app/design/button'
+import { Button, Pressable, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
 import { useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
 import { useConvexAuth } from 'convex/react'
 import { useAuth } from '@clerk/clerk-react'
 import { useRouter } from 'solito/router'
+import { Icon } from 'react-native-eva-icons'
+import colors from 'tailwindcss/colors'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
@@ -15,6 +17,8 @@ export function HomeScreen() {
 
   const [recipes, setRecipes] = useState<Array<SpoonacularRecipe>>([])
   const [numberOfRecipes, setNumberOfRecipes] = useState(4)
+  const [isError, setIsError] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
   const lockedRecipeCount = lockedRecipes.length
 
@@ -27,6 +31,7 @@ export function HomeScreen() {
     )
     url.searchParams.set('number', numberOfRecipesToSpin.toString())
 
+    const oldRecipes = recipes.map((r) => ({ ...r }))
     const loadingRecipes = recipes.length
       ? []
       : Array(numberOfRecipesToSpin).fill({ loading: true })
@@ -46,16 +51,28 @@ export function HomeScreen() {
       headers.set('Authorization', 'Bearer ' + token)
     }
 
-    fetch(url, { method: 'GET', headers }).then((res) => {
-      res.json().then((recipeResults) => {
+    try {
+      const response = await fetch(url, { method: 'GET', headers })
+
+      if (response.status === 200) {
+        const recipeResults = await response.json()
         const newRecipes = recipeResults
         lockedRecipes.forEach((recipe) => {
           const index = recipes.indexOf(recipe)
           newRecipes.splice(index, 0, recipe)
         })
         setRecipes(newRecipes)
-      })
-    })
+        setIsError(false)
+      }
+
+      if (response.status === 429) {
+        setRecipes(oldRecipes)
+        setIsError(true)
+        setErrorMessage('Spin limit reached.')
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
   const lockRecipe = (recipe: SpoonacularRecipe) => {
     const recipeIndex = recipes.findIndex((r) => r.id === recipe.id)
@@ -72,13 +89,38 @@ export function HomeScreen() {
       className="p-4 md:p-8"
       contentContainerStyle={{
         display: 'flex',
-        minHeight: '100%',
+        minHeight: 650,
         alignItems: 'center',
         justifyContent: 'space-between',
       }}
     >
       <View className="min-h-[50%] w-full max-w-7xl rounded-3xl bg-slate-200">
         <View className="flex w-full flex-row flex-wrap justify-center p-2">
+          {isError ? (
+            <View className="w-full items-center p-2">
+              <View className=" w-full items-center justify-center rounded-md bg-red-300 p-2 sm:w-1/2">
+                <Text>
+                  {errorMessage}{' '}
+                  {isAuthenticated
+                    ? 'Try again later.'
+                    : 'Sign up to spin more!'}
+                </Text>
+                <Pressable
+                  tw="absolute right-0 m-2"
+                  onPress={() => {
+                    setIsError(false)
+                  }}
+                >
+                  <Icon
+                    name="close"
+                    height={16}
+                    width={16}
+                    fill={colors.red['800']}
+                  />
+                </Pressable>
+              </View>
+            </View>
+          ) : null}
           {recipes?.length > 0 ? (
             recipes?.map((r) => (
               <RecipeCard lockRecipe={lockRecipe} key={r.id} recipe={r} />

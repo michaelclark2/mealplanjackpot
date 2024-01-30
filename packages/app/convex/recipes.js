@@ -21,7 +21,14 @@ export const getRandom = httpAction(async (ctx, request) => {
         queryLimit: quota.queryLimit - 1,
       })
     } else {
-      console.log('quota limit reached')
+      return new Response(null, {
+        status: 429,
+        statusText: 'Query limit reached',
+        headers: new Headers({
+          'Access-Control-Allow-Origin': process.env.CLIENT_ORIGIN,
+          Vary: 'origin',
+        }),
+      })
     }
   }
 
