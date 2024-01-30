@@ -4,10 +4,13 @@ import { View, ScrollView } from 'app/design/view'
 import { useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
 import { useConvexAuth } from 'convex/react'
+import { useAuth } from '@clerk/clerk-react'
 import { useRouter } from 'solito/router'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
+  const { getToken } = useAuth()
+
   const router = useRouter()
 
   const [recipes, setRecipes] = useState<Array<SpoonacularRecipe>>([])
@@ -15,7 +18,7 @@ export function HomeScreen() {
   const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
   const lockedRecipeCount = lockedRecipes.length
 
-  const getRandomRecipes = () => {
+  const getRandomRecipes = async () => {
     const numberOfRecipesToSpin = numberOfRecipes - lockedRecipeCount
 
     const url = new URL(
@@ -37,7 +40,13 @@ export function HomeScreen() {
     })
     setRecipes(loadingRecipes)
 
-    fetch(url).then((res) => {
+    const headers = new Headers()
+    if (isAuthenticated) {
+      const token = await getToken({ template: 'convex' })
+      headers.set('Authorization', 'Bearer ' + token)
+    }
+
+    fetch(url, { method: 'GET', headers }).then((res) => {
       res.json().then((recipeResults) => {
         const newRecipes = recipeResults
         lockedRecipes.forEach((recipe) => {
