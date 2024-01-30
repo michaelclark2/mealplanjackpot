@@ -26,7 +26,7 @@ http.route({
           // e.g. https://mywebsite.com, configured on your Convex dashboard
           'Access-Control-Allow-Origin': process.env.CLIENT_ORIGIN!,
           'Access-Control-Allow-Methods': 'GET',
-          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Headers': 'Authorization',
           'Access-Control-Max-Age': '86400',
         }),
       })
