@@ -3,11 +3,12 @@ import { Button, Pressable, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
 import { useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
-import { useConvexAuth } from 'convex/react'
+import { useConvexAuth, useMutation } from 'convex/react'
 import { useAuth } from '@clerk/clerk-react'
 import { useRouter } from 'solito/router'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
+import { api } from 'app/convex/_generated/api'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
@@ -19,6 +20,7 @@ export function HomeScreen() {
   const [numberOfRecipes, setNumberOfRecipes] = useState(4)
   const [isError, setIsError] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const saveMealPlan = useMutation(api.mealPlans.saveMealPlan)
   const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
   const lockedRecipeCount = lockedRecipes.length
 
@@ -84,8 +86,8 @@ export function HomeScreen() {
     }
   }
 
-  const saveMealPlan = () => {
-    console.log('saved meal plan')
+  const handleSave = async () => {
+    const response = await saveMealPlan({ recipes })
   }
 
   const readyToSave = recipes.length && !recipes.some((r) => r.loading)
@@ -149,7 +151,7 @@ export function HomeScreen() {
           }
         >
           <Button
-            onPress={saveMealPlan}
+            onPress={handleSave}
             className={
               'pointer-events-auto relative w-24 ' +
               (readyToSave ? '' : 'invisible')
