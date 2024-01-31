@@ -84,6 +84,12 @@ export function HomeScreen() {
     }
   }
 
+  const saveMealPlan = () => {
+    console.log('saved meal plan')
+  }
+
+  const readyToSave = recipes.length && !recipes.some((r) => r.loading)
+
   return (
     <ScrollView
       className="p-4 md:p-8"
@@ -143,8 +149,11 @@ export function HomeScreen() {
           }
         >
           <Button
-            className="pointer-events-auto relative w-24"
-            onPress={() => console.log('clicky button')}
+            onPress={saveMealPlan}
+            className={
+              'pointer-events-auto relative w-24 ' +
+              (readyToSave ? '' : 'invisible')
+            }
           >
             <Text className="text-center text-white">Save</Text>
           </Button>
