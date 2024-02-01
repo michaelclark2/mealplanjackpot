@@ -88,6 +88,9 @@ export function HomeScreen() {
 
   const handleSave = async () => {
     const response = await saveMealPlan({ recipes })
+    if (response) {
+      setRecipes([])
+    }
   }
 
   const readyToSave = recipes.length && !recipes.some((r) => r.loading)
