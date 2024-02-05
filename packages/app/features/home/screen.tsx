@@ -3,11 +3,13 @@ import { Button, Pressable, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
 import { useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
-import { useConvexAuth } from 'convex/react'
+import { useConvexAuth, useMutation } from 'convex/react'
 import { useAuth } from '@clerk/clerk-react'
 import { useRouter } from 'solito/router'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
+import { api } from 'app/convex/_generated/api'
+import * as Burnt from 'burnt'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
@@ -19,6 +21,7 @@ export function HomeScreen() {
   const [numberOfRecipes, setNumberOfRecipes] = useState(4)
   const [isError, setIsError] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const saveMealPlan = useMutation(api.mealPlans.saveMealPlan)
   const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
   const lockedRecipeCount = lockedRecipes.length
 
@@ -84,6 +87,45 @@ export function HomeScreen() {
     }
   }
 
+  const handleSave = async () => {
+    if (isAuthenticated) {
+      const response = await saveMealPlan({ recipes })
+      if (response) {
+        await Burnt.toast({
+          title: 'Saved meal plan!',
+          from: 'bottom',
+          preset: 'done',
+        })
+        setRecipes([])
+      }
+    } else if (!isAuthenticated && readyToSave) {
+      await Burnt.toast({
+        title: 'Could not save meal plan',
+        message: 'Create an account first!',
+        from: 'bottom',
+        preset: 'custom',
+        layout: { iconSize: { height: 36, width: 36 } },
+        icon: {
+          ios: {
+            name: 'person',
+            color: colors.orange['500'],
+          },
+          web: (
+            <Icon
+              name="person-outline"
+              height={24}
+              width={24}
+              fill={colors.orange['500']}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        },
+      })
+    }
+  }
+
+  const readyToSave = recipes.length && !recipes.some((r) => r.loading)
+
   return (
     <ScrollView
       className="p-4 md:p-8"
@@ -136,20 +178,21 @@ export function HomeScreen() {
             <Text className="font-extrabold text-white">Spin</Text>
           </SpinButton>
         </View>
-        <View
-          className={
-            'min-h-32 pointer-events-none mb-40 w-full flex-1 flex-row items-start justify-around space-x-3 sm:m-10 sm:justify-between ' +
-            (isAuthenticated ? '' : 'hidden')
-          }
-        >
+        <View className="min-h-32 pointer-events-none mb-40 w-full flex-1 flex-row items-start justify-around space-x-3 sm:m-10 sm:justify-between">
           <Button
-            className="pointer-events-auto relative w-24"
-            onPress={() => console.log('clicky button')}
+            onPress={handleSave}
+            className={
+              'pointer-events-auto relative w-24 ' +
+              (readyToSave ? '' : 'invisible')
+            }
           >
             <Text className="text-center text-white">Save</Text>
           </Button>
           <Button
-            className="pointer-events-auto relative w-24 bg-orange-500"
+            className={
+              'pointer-events-auto relative w-24 bg-orange-500 ' +
+              (isAuthenticated ? '' : 'hidden')
+            }
             onPress={() => router.push('/settings')}
           >
             <Text className="text-center text-white">Settings</Text>

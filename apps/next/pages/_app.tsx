@@ -6,6 +6,7 @@ import Navbar from 'app/components/Navbar'
 import Footer from 'app/components/Footer'
 import Head from 'next/head'
 import React from 'react'
+import { Toaster } from 'burnt/web'
 
 import '../global.css'
 import { AppProps } from 'next/app'
@@ -21,6 +22,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider>
         <Navbar />
         <Component {...pageProps} />
+        <Toaster
+          expand
+          richColors
+          position="bottom-center"
+          style={{ textAlign: 'center', margin: '0 auto' }}
+        />
         <Footer />
       </Provider>
     </>
