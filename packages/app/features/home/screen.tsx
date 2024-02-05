@@ -91,6 +91,11 @@ export function HomeScreen() {
     if (isAuthenticated) {
       const response = await saveMealPlan({ recipes })
       if (response) {
+        await Burnt.toast({
+          title: 'Saved meal plan!',
+          from: 'bottom',
+          preset: 'done',
+        })
         setRecipes([])
       }
     } else if (!isAuthenticated && readyToSave) {
