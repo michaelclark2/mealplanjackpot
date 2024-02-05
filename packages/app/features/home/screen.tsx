@@ -95,7 +95,26 @@ export function HomeScreen() {
       }
     } else if (!isAuthenticated && readyToSave) {
       await Burnt.toast({
-        title: 'Please sign up for an account to save your mealplan!',
+        title: 'Could not save meal plan',
+        message: 'Create an account first!',
+        from: 'bottom',
+        preset: 'custom',
+        layout: { iconSize: { height: 36, width: 36 } },
+        icon: {
+          ios: {
+            name: 'person',
+            color: colors.orange['500'],
+          },
+          web: (
+            <Icon
+              name="person-outline"
+              height={24}
+              width={24}
+              fill={colors.orange['500']}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        },
       })
     }
   }

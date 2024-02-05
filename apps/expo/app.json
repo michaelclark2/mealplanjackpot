@@ -6,10 +6,13 @@
     "scheme": "solito-nativewind",
     "platforms": ["ios", "android"],
     "plugins": [
-      ["expo-build-properties", { "ios": { "deploymentTarget": "13.0" } }]
+      ["expo-build-properties", { "ios": { "deploymentTarget": "13.4" } }]
     ],
     "ios": {
       "bundleIdentifier": "com.solito.nativewind"
+    },
+    "android": {
+      "package": "com.solito.nativewind"
     }
   }
 }

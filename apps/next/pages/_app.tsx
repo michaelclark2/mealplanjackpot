@@ -22,7 +22,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider>
         <Navbar />
         <Component {...pageProps} />
-        <Toaster position="bottom-center" />
+        <Toaster
+          expand
+          richColors
+          position="bottom-center"
+          style={{ textAlign: 'center', margin: '0 auto' }}
+        />
         <Footer />
       </Provider>
     </>
