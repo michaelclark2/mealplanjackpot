@@ -9,6 +9,7 @@ import { useRouter } from 'solito/router'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
 import { api } from 'app/convex/_generated/api'
+import * as Burnt from 'burnt'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
@@ -87,9 +88,15 @@ export function HomeScreen() {
   }
 
   const handleSave = async () => {
-    const response = await saveMealPlan({ recipes })
-    if (response) {
-      setRecipes([])
+    if (isAuthenticated) {
+      const response = await saveMealPlan({ recipes })
+      if (response) {
+        setRecipes([])
+      }
+    } else if (!isAuthenticated && readyToSave) {
+      await Burnt.toast({
+        title: 'Please sign up for an account to save your mealplan!',
+      })
     }
   }
 
@@ -147,12 +154,7 @@ export function HomeScreen() {
             <Text className="font-extrabold text-white">Spin</Text>
           </SpinButton>
         </View>
-        <View
-          className={
-            'min-h-32 pointer-events-none mb-40 w-full flex-1 flex-row items-start justify-around space-x-3 sm:m-10 sm:justify-between ' +
-            (isAuthenticated ? '' : 'hidden')
-          }
-        >
+        <View className="min-h-32 pointer-events-none mb-40 w-full flex-1 flex-row items-start justify-around space-x-3 sm:m-10 sm:justify-between">
           <Button
             onPress={handleSave}
             className={
@@ -163,7 +165,10 @@ export function HomeScreen() {
             <Text className="text-center text-white">Save</Text>
           </Button>
           <Button
-            className="pointer-events-auto relative w-24 bg-orange-500"
+            className={
+              'pointer-events-auto relative w-24 bg-orange-500 ' +
+              (isAuthenticated ? '' : 'hidden')
+            }
             onPress={() => router.push('/settings')}
           >
             <Text className="text-center text-white">Settings</Text>

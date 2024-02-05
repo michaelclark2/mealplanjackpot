@@ -28,6 +28,7 @@
   ],
   "packageManager": "yarn@3.4.1",
   "dependencies": {
+    "burnt": "^0.12.2",
     "convex": "^1.8.0",
     "expo-image": "^1.10.5",
     "react-native-dotenv": "^3.4.9",
