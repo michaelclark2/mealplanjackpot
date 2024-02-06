@@ -131,7 +131,7 @@ export function HomeScreen() {
       className="p-4 md:p-8"
       contentContainerStyle={{
         display: 'flex',
-        minHeight: 650,
+        minHeight: 700,
         alignItems: 'center',
         justifyContent: 'space-between',
       }}
@@ -178,16 +178,17 @@ export function HomeScreen() {
             <Text className="font-extrabold text-white">Spin</Text>
           </SpinButton>
         </View>
-        <View className="min-h-32 pointer-events-none mb-40 w-full flex-1 flex-row items-start justify-around space-x-3 sm:m-10 sm:justify-between">
-          <Button
-            onPress={handleSave}
-            className={
-              'pointer-events-auto relative w-24 ' +
-              (readyToSave ? '' : 'invisible')
-            }
-          >
-            <Text className="text-center text-white">Save</Text>
-          </Button>
+        <View className="pointer-events-none mb-40 min-h-[32em] w-full flex-1 flex-row items-start justify-around sm:m-10 sm:justify-between">
+          {readyToSave ? (
+            <Button
+              onPress={handleSave}
+              className="pointer-events-auto relative w-24"
+            >
+              <Text className="text-center text-white">Save</Text>
+            </Button>
+          ) : (
+            <View className="hidden sm:invisible sm:block" />
+          )}
           <Button
             className={
               'pointer-events-auto relative w-24 bg-orange-500 ' +
