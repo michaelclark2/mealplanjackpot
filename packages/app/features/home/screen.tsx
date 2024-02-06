@@ -88,7 +88,7 @@ export function HomeScreen() {
   }
 
   const handleSave = async () => {
-    if (isAuthenticated) {
+    if (isAuthenticated && readyToSave) {
       const response = await saveMealPlan({ recipes })
       if (response) {
         await Burnt.toast({
