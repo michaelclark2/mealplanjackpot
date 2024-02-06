@@ -29,9 +29,9 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href="/user/plans"
+                href="/plans"
                 className={
-                  router.pathname.startsWith('/user/') ? 'font-bold' : ''
+                  router.pathname.startsWith('/plans') ? 'font-bold' : ''
                 }
               >
                 Plans
