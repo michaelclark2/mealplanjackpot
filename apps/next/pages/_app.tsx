@@ -6,6 +6,7 @@ import Navbar from 'app/components/Navbar'
 import Footer from 'app/components/Footer'
 import Head from 'next/head'
 import React from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { Toaster } from 'burnt/web'
 
 import '../global.css'
@@ -22,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider>
         <Navbar />
         <Component {...pageProps} />
+        <Analytics />
         <Toaster
           expand
           richColors
