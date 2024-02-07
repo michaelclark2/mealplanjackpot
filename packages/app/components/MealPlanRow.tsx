@@ -21,11 +21,12 @@ export default function MealPlanRow({ mealPlan }) {
           Week of {new Date(mealPlan.startDate).toDateString()}
         </Text>
       </View>
-      <View className="flex-row flex-wrap justify-around p-2 sm:flex-row sm:justify-start sm:space-x-3">
+      <View className="flex-row flex-wrap justify-around p-2 sm:justify-center lg:justify-start">
         {mealPlan.recipes.map((recipe) => (
           <Pressable
             onPress={() => viewRecipeURL(recipe)}
-            className="m-1 box-border h-auto w-[45%] rounded-3xl p-0 sm:m-0 sm:w-[13.5%]"
+            style={{ borderWidth: 0.75 }}
+            className="m-1 box-border h-auto w-[45%] rounded-3xl border-slate-100 bg-white p-0 shadow md:w-1/5 lg:w-[13%]"
           >
             <SolitoImage
               src={recipe.image}
@@ -33,10 +34,15 @@ export default function MealPlanRow({ mealPlan }) {
               height={100}
               contentFit="cover"
               contentPosition="center"
-              style={{ borderRadius: 24, width: '100%', maxHeight: 100 }}
+              style={{
+                borderTopRightRadius: 24,
+                borderTopLeftRadius: 24,
+                width: '100%',
+                maxHeight: 100,
+              }}
             />
 
-            <Text className="p-2 text-xs font-bold leading-3  sm:leading-4">
+            <Text className="p-3 text-xs font-bold leading-3  sm:leading-4">
               {recipe.title}
             </Text>
           </Pressable>
