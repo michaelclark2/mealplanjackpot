@@ -9,10 +9,10 @@ import { useMutation, useQuery } from 'convex/react'
 import { api } from 'app/convex/_generated/api'
 
 export function SettingsScreen() {
-  const userSettings = useQuery(api.settings.getUserSettings)
+  const userSettings = useQuery(api.settings.getUserSettings, {})
   const editUserSettings = useMutation(api.settings.editUserSettings)
 
-  const handleNumberChange = (amount) => {
+  const handleNumberChange = (amount: number) => {
     if (
       userSettings.numberOfRecipes + amount >= 1 &&
       userSettings.numberOfRecipes + amount <= 7
@@ -24,7 +24,7 @@ export function SettingsScreen() {
     }
   }
 
-  const handleDietChange = (diet) => {
+  const handleDietChange = (diet: string) => {
     let newDiet = [...userSettings.diet]
     const selected = newDiet.includes(diet)
     if (selected) {
@@ -37,7 +37,7 @@ export function SettingsScreen() {
       diet: newDiet,
     })
   }
-  const handleIntoleranceChange = (intolerance) => {
+  const handleIntoleranceChange = (intolerance: string) => {
     let newIntolerances = [...userSettings.intolerances]
     const selected = newIntolerances.includes(intolerance)
     if (selected) {

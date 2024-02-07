@@ -23,7 +23,7 @@ export function HomeScreen() {
   const saveMealPlan = useMutation(api.mealPlans.saveMealPlan)
   const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
   const lockedRecipeCount = lockedRecipes.length
-  const userSettings = useQuery(api.settings.getUserSettings)
+  const userSettings = useQuery(api.settings.getUserSettings, {})
 
   const getRandomRecipes = async () => {
     const numberOfRecipesToSpin =
