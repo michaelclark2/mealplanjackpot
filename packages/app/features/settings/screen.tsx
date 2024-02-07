@@ -71,7 +71,7 @@ export function SettingsScreen() {
           className={'mb-1 mr-1 rounded ' + selectedButtonClass}
           onPress={() => handleDietChange(diet[0])}
         >
-          <Text className={'p-1 ' + (selected ? 'text-white' : '')}>
+          <Text className={'p-2 ' + (selected ? 'text-white' : '')}>
             {diet[1]}
           </Text>
         </Pressable>
@@ -104,7 +104,7 @@ export function SettingsScreen() {
           className={'mb-1 mr-1 rounded ' + selectedButtonClass}
           onPress={() => handleIntoleranceChange(intolerance[0])}
         >
-          <Text className={'p-1 ' + (selected ? 'text-white' : '')}>
+          <Text className={'p-2 ' + (selected ? 'text-white' : '')}>
             {intolerance[1]}
           </Text>
         </Pressable>
@@ -117,9 +117,9 @@ export function SettingsScreen() {
         {Platform.OS === 'web' ? (
           <Text className="text-lg font-bold">Settings</Text>
         ) : null}
-        <View className="mx-auto w-full select-none justify-start space-y-4 sm:w-1/3">
+        <View className="mx-auto w-full select-none justify-start space-y-10  md:w-2/3 lg:w-1/3">
           <View className="flex-row items-center justify-between">
-            <Text className="w-1/3">Number of Recipes</Text>
+            <Text className="w-1/3 font-bold">Number of Recipes</Text>
             <View className="w-2/3 flex-row items-center justify-start">
               <Pressable onPress={() => handleNumberChange(-1)}>
                 <Icon
@@ -129,7 +129,7 @@ export function SettingsScreen() {
                   fill={colors.orange['500']}
                 />
               </Pressable>
-              <Text className="mx-2 text-3xl">
+              <Text className="mx-2 text-3xl font-bold">
                 {userSettings?.numberOfRecipes}
               </Text>
               <Pressable onPress={() => handleNumberChange(1)}>
@@ -143,13 +143,13 @@ export function SettingsScreen() {
             </View>
           </View>
           <View className="flex-row justify-between">
-            <Text>Diet</Text>
+            <Text className="font-bold">Diet</Text>
             <View className="w-2/3 flex-row flex-wrap">
               {renderDietChoices()}
             </View>
           </View>
           <View className="flex-row justify-between">
-            <Text>Intolerances</Text>
+            <Text className="font-bold">Intolerances</Text>
             <View className="w-2/3 flex-row flex-wrap">
               {renderIntoleranceChoices()}
             </View>
