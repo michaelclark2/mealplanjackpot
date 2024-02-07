@@ -14,16 +14,60 @@ export function SettingsScreen() {
   const handleLogout = () => {
     signOut().then(() => router.push('/'))
   }
+  const renderDietChoices = () => {
+    const SPOONACULAR_DIET_CHOICES = [
+      ['vegetarian', 'Vegetarian'],
+      ['vegan', 'Vegan'],
+      ['gluten-free', 'Gluten Free'],
+      ['pescatarian', 'Pescatarian'],
+      ['ketogenic', 'Ketogenic'],
+      ['whole30', 'Whole30'],
+      ['paleo', 'Paleo'],
+    ]
+    return SPOONACULAR_DIET_CHOICES.map((diet) => (
+      <Pressable
+        className="mb-1 mr-1 rounded border border-orange-500"
+        onPress={() => console.log(diet[0])}
+      >
+        <Text className="p-1">{diet[1]}</Text>
+      </Pressable>
+    ))
+  }
+
+  const renderIntoleranceChoices = () => {
+    const SPOONACULAR_ALLERGY_CHOICES = [
+      ['dairy', 'Dairy'],
+      ['egg', 'Egg'],
+      ['gluten', 'Gluten'],
+      ['grain', 'Grain'],
+      ['peanut', 'Peanut'],
+      ['tree nut', 'Tree Nut'],
+      ['seafood', 'Seafood'],
+      ['shellfish', 'Shellfish'],
+      ['sesame', 'Sesame'],
+      ['soy', 'Soy'],
+      ['sulfite', 'Sulfite'],
+      ['wheat', 'Wheat'],
+    ]
+    return SPOONACULAR_ALLERGY_CHOICES.map((intolerance) => (
+      <Pressable
+        className="mb-1 mr-1 rounded border border-orange-500"
+        onPress={() => console.log(intolerance[0])}
+      >
+        <Text className="p-1">{intolerance[1]}</Text>
+      </Pressable>
+    ))
+  }
   return (
     <SignedIn>
       <View className="flex-1 p-4 md:p-8">
         {process.env.NEXT_PUBLIC_CONVEX_SITE ? (
           <Text className="text-lg font-bold">Settings</Text>
         ) : null}
-        <View className="m-auto w-full sm:w-1/2">
+        <View className="m-auto w-full space-y-4 sm:w-1/3">
           <View className="flex-row items-center justify-between">
             <Text>Number of Recipes</Text>
-            <View className="w-1/2 flex-row items-center justify-between">
+            <View className="w-1/2 flex-row items-center justify-between sm:w-1/3">
               <Pressable
                 className="flex"
                 onPress={() =>
@@ -50,6 +94,18 @@ export function SettingsScreen() {
                   fill={colors.orange['500']}
                 />
               </Pressable>
+            </View>
+          </View>
+          <View className="flex-row justify-between">
+            <Text>Diet</Text>
+            <View className="w-2/3 flex-row flex-wrap">
+              {renderDietChoices()}
+            </View>
+          </View>
+          <View className="flex-row justify-between">
+            <Text>Intolerances</Text>
+            <View className="w-2/3 flex-row flex-wrap">
+              {renderIntoleranceChoices()}
             </View>
           </View>
           <Button className="m-auto" onPress={handleLogout}>
