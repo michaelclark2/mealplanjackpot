@@ -13,6 +13,18 @@ export function SettingsScreen() {
   const userSettings = useQuery(api.settings.getUserSettings)
   const editUserSettings = useMutation(api.settings.editUserSettings)
 
+  const handleNumberChange = (amount) => {
+    if (
+      userSettings.numberOfRecipes + amount >= 1 &&
+      userSettings.numberOfRecipes + amount <= 7
+    ) {
+      editUserSettings({
+        id: userSettings._id,
+        numberOfRecipes: userSettings.numberOfRecipes + amount,
+      })
+    }
+  }
+
   const renderDietChoices = () => {
     const SPOONACULAR_DIET_CHOICES = [
       ['vegetarian', 'Vegetarian'],
@@ -67,11 +79,7 @@ export function SettingsScreen() {
           <View className="flex-row items-center justify-between">
             <Text className="w-1/3">Number of Recipes</Text>
             <View className="w-2/3 flex-row items-center justify-start">
-              <Pressable
-                onPress={() =>
-                  setNumberOfRecipes((Number(numberOfRecipes) - 1).toString())
-                }
-              >
+              <Pressable onPress={() => handleNumberChange(-1)}>
                 <Icon
                   name="minus-square-outline"
                   width={50}
@@ -82,11 +90,7 @@ export function SettingsScreen() {
               <Text className="mx-2 text-3xl">
                 {userSettings?.numberOfRecipes}
               </Text>
-              <Pressable
-                onPress={() =>
-                  setNumberOfRecipes((Number(numberOfRecipes) + 1).toString())
-                }
-              >
+              <Pressable onPress={() => handleNumberChange(1)}>
                 <Icon
                   name="plus-square-outline"
                   width={50}

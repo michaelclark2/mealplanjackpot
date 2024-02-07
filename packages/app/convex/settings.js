@@ -37,9 +37,15 @@ export const createUserSettings = internalMutation({
 export const editUserSettings = mutation({
   args: {
     id: v.id('userSettings'),
-    numberOfRecipes: v.number((v) => v >= 1 && v <= 7),
+    numberOfRecipes: v.optional(v.number()),
+    diet: v.optional(v.array(v.string())),
+    intolerances: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.patch(args.id, args.settings)
+    return await ctx.db.patch(args.id, {
+      numberOfRecipes: args.numberOfRecipes,
+      diet: args.diet ?? [],
+      intolerances: args.intolerances ?? [],
+    })
   },
 })
