@@ -1,23 +1,18 @@
 import { Text } from 'app/design/typography'
 import { Platform } from 'react-native'
 import { View } from 'app/design/view'
-import { Button, Pressable } from 'app/design/button'
-import { SignedIn, useAuth } from '@clerk/clerk-react'
-import { useRouter } from 'solito/router'
+import { Pressable } from 'app/design/button'
+import { SignedIn } from '@clerk/clerk-react'
 import { useState } from 'react'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
-import { useQuery } from 'convex/react'
+import { useMutation, useQuery } from 'convex/react'
 import { api } from 'app/convex/_generated/api'
 
 export function SettingsScreen() {
   const userSettings = useQuery(api.settings.getUserSettings)
-  const [numberOfRecipes, setNumberOfRecipes] = useState<string>('4')
-  const router = useRouter()
-  const { signOut } = useAuth()
-  const handleLogout = () => {
-    signOut().then(() => router.push('/'))
-  }
+  const editUserSettings = useMutation(api.settings.editUserSettings)
+
   const renderDietChoices = () => {
     const SPOONACULAR_DIET_CHOICES = [
       ['vegetarian', 'Vegetarian'],
@@ -68,7 +63,7 @@ export function SettingsScreen() {
         {Platform.OS === 'web' ? (
           <Text className="text-lg font-bold">Settings</Text>
         ) : null}
-        <View className="m-auto w-full select-none space-y-4 sm:w-1/3">
+        <View className="mx-auto w-full select-none justify-start space-y-4 sm:w-1/3">
           <View className="flex-row items-center justify-between">
             <Text className="w-1/3">Number of Recipes</Text>
             <View className="w-2/3 flex-row items-center justify-start">
@@ -84,7 +79,9 @@ export function SettingsScreen() {
                   fill={colors.orange['500']}
                 />
               </Pressable>
-              <Text className="mx-2 text-3xl">{numberOfRecipes}</Text>
+              <Text className="mx-2 text-3xl">
+                {userSettings?.numberOfRecipes}
+              </Text>
               <Pressable
                 onPress={() =>
                   setNumberOfRecipes((Number(numberOfRecipes) + 1).toString())
@@ -111,9 +108,6 @@ export function SettingsScreen() {
               {renderIntoleranceChoices()}
             </View>
           </View>
-          <Button className="m-auto" onPress={handleLogout}>
-            <Text>Logout</Text>
-          </Button>
         </View>
       </View>
     </SignedIn>
