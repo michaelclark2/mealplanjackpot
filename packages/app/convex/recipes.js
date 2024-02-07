@@ -1,5 +1,5 @@
 import { httpAction } from './_generated/server'
-import { internal } from './_generated/api'
+import { internal, api } from './_generated/api'
 
 export const getRandom = httpAction(async (ctx, request) => {
   const identity = await ctx.auth.getUserIdentity()
@@ -12,8 +12,14 @@ export const getRandom = httpAction(async (ctx, request) => {
   if (Number(number) > 0) {
     const quota = await getUserQuota(identifier, ctx)
     if (quota.queryLimit > 0) {
+      const userSettings = await ctx.runQuery(api.settings.getUserSettings)
+      if (identity && userSettings.default) {
+        await ctx.runMutation(internal.settings.createUserSettings)
+      }
       const recipes = await ctx.runAction(internal.spoonacular.complexSearch, {
         number,
+        diet: userSettings.diet,
+        intolerances: userSettings.intolerances,
       })
       results = recipes['results']
       await ctx.runMutation(internal.quotas.updateQuota, {

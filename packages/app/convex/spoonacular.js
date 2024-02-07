@@ -4,6 +4,8 @@ import { internalAction } from './_generated/server'
 export const complexSearch = internalAction({
   args: {
     number: v.string(),
+    diet: v.optional(v.array(v.string())),
+    intolerances: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     if (Number(args.number) < 0 || Number(args.number) > 7)
@@ -15,9 +17,14 @@ export const complexSearch = internalAction({
       sort: 'random',
       type: 'main course',
       number: args.number,
+      diet: args.diet?.join(','),
+      intolerances: args.intolerances?.join(','),
     }
     const params = new URLSearchParams(defaultParams)
     const recipes = await fetch(baseURL + '?' + params)
+    if (!recipes.ok) {
+      console.log(recipes.statusText)
+    }
     return await recipes.json()
   },
 })

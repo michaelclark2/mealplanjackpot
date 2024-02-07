@@ -3,7 +3,7 @@ import { Button, Pressable, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
 import { useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
-import { useConvexAuth, useMutation } from 'convex/react'
+import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { useAuth } from '@clerk/clerk-react'
 import { useRouter } from 'solito/router'
 import { Icon } from 'react-native-eva-icons'
@@ -18,15 +18,16 @@ export function HomeScreen() {
   const router = useRouter()
 
   const [recipes, setRecipes] = useState<Array<SpoonacularRecipe>>([])
-  const [numberOfRecipes, setNumberOfRecipes] = useState(4)
   const [isError, setIsError] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
   const saveMealPlan = useMutation(api.mealPlans.saveMealPlan)
   const lockedRecipes = recipes.filter((r: SpoonacularRecipe) => r.locked)
   const lockedRecipeCount = lockedRecipes.length
+  const userSettings = useQuery(api.settings.getUserSettings, {})
 
   const getRandomRecipes = async () => {
-    const numberOfRecipesToSpin = numberOfRecipes - lockedRecipeCount
+    const numberOfRecipesToSpin =
+      userSettings.numberOfRecipes - lockedRecipeCount
 
     const url = new URL(
       (process.env.NEXT_PUBLIC_CONVEX_SITE ??
