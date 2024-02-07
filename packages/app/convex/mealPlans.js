@@ -1,5 +1,18 @@
 import { v } from 'convex/values'
-import { mutation } from './_generated/server'
+import { query, mutation } from './_generated/server'
+
+export const getMealPlans = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (identity === null) return
+    const mealPlans = await ctx.db
+      .query('mealPlans')
+      .filter((q) => q.eq(q.field('identifier'), identity.email))
+      .order('desc')
+      .collect()
+    return mealPlans
+  },
+})
 
 export const saveMealPlan = mutation({
   args: { recipes: v.array(v.any()) },
