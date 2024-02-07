@@ -18,8 +18,8 @@ import type * as http from "../http.js";
 import type * as mealPlans from "../mealPlans.js";
 import type * as quotas from "../quotas.js";
 import type * as recipes from "../recipes.js";
+import type * as settings from "../settings.js";
 import type * as spoonacular from "../spoonacular.js";
-import type * as users from "../users.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -34,8 +34,8 @@ declare const fullApi: ApiFromModules<{
   mealPlans: typeof mealPlans;
   quotas: typeof quotas;
   recipes: typeof recipes;
+  settings: typeof settings;
   spoonacular: typeof spoonacular;
-  users: typeof users;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

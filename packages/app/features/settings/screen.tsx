@@ -1,4 +1,5 @@
 import { Text } from 'app/design/typography'
+import { Platform } from 'react-native'
 import { View } from 'app/design/view'
 import { Button, Pressable } from 'app/design/button'
 import { SignedIn, useAuth } from '@clerk/clerk-react'
@@ -6,8 +7,11 @@ import { useRouter } from 'solito/router'
 import { useState } from 'react'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
+import { useQuery } from 'convex/react'
+import { api } from 'app/convex/_generated/api'
 
 export function SettingsScreen() {
+  const userSettings = useQuery(api.settings.getUserSettings)
   const [numberOfRecipes, setNumberOfRecipes] = useState<string>('4')
   const router = useRouter()
   const { signOut } = useAuth()
@@ -61,15 +65,14 @@ export function SettingsScreen() {
   return (
     <SignedIn>
       <View className="flex-1 p-4 md:p-8">
-        {process.env.NEXT_PUBLIC_CONVEX_SITE ? (
+        {Platform.OS === 'web' ? (
           <Text className="text-lg font-bold">Settings</Text>
         ) : null}
-        <View className="m-auto w-full space-y-4 sm:w-1/3">
+        <View className="m-auto w-full select-none space-y-4 sm:w-1/3">
           <View className="flex-row items-center justify-between">
-            <Text>Number of Recipes</Text>
-            <View className="w-1/2 flex-row items-center justify-between sm:w-1/3">
+            <Text className="w-1/3">Number of Recipes</Text>
+            <View className="w-2/3 flex-row items-center justify-start">
               <Pressable
-                className="flex"
                 onPress={() =>
                   setNumberOfRecipes((Number(numberOfRecipes) - 1).toString())
                 }
@@ -81,7 +84,7 @@ export function SettingsScreen() {
                   fill={colors.orange['500']}
                 />
               </Pressable>
-              <Text className="text-3xl">{numberOfRecipes}</Text>
+              <Text className="mx-2 text-3xl">{numberOfRecipes}</Text>
               <Pressable
                 onPress={() =>
                   setNumberOfRecipes((Number(numberOfRecipes) + 1).toString())
