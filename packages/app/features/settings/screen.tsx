@@ -37,6 +37,19 @@ export function SettingsScreen() {
       diet: newDiet,
     })
   }
+  const handleIntoleranceChange = (intolerance) => {
+    let newIntolerances = [...userSettings.intolerances]
+    const selected = newIntolerances.includes(intolerance)
+    if (selected) {
+      newIntolerances = newIntolerances.filter((i) => i !== intolerance)
+    } else {
+      newIntolerances.push(intolerance)
+    }
+    editUserSettings({
+      id: userSettings._id,
+      intolerances: newIntolerances,
+    })
+  }
 
   const renderDietChoices = () => {
     const SPOONACULAR_DIET_CHOICES = [
@@ -82,16 +95,18 @@ export function SettingsScreen() {
       ['wheat', 'Wheat'],
     ]
     return SPOONACULAR_ALLERGY_CHOICES.map((intolerance) => {
-      const selected = userSettings?.intolerance?.includes(intolerance[0])
+      const selected = userSettings?.intolerances?.includes(intolerance[0])
       const selectedButtonClass = selected
         ? 'bg-orange-500'
         : 'border border-orange-500'
       return (
         <Pressable
-          className="mb-1 mr-1 rounded border border-orange-500"
-          onPress={() => console.log(intolerance[0])}
+          className={'mb-1 mr-1 rounded ' + selectedButtonClass}
+          onPress={() => handleIntoleranceChange(intolerance[0])}
         >
-          <Text className="p-1">{intolerance[1]}</Text>
+          <Text className={'p-1 ' + (selected ? 'text-white' : '')}>
+            {intolerance[1]}
+          </Text>
         </Pressable>
       )
     })
