@@ -6,9 +6,19 @@ import { useMutation } from 'convex/react'
 import { Linking } from 'react-native'
 import { Icon } from 'react-native-eva-icons'
 import { SolitoImage } from 'solito/image'
+import { SpoonacularRecipe } from './RecipeCard'
 import * as Burnt from 'burnt'
+import { Id } from 'app/convex/_generated/dataModel'
 
-export const RecipeCardLite = ({ recipe }) => {
+export interface MealPlan {
+  _id: Id<'mealPlans'>
+  identifier: string
+  _createdTime: number
+  recipes: Array<SpoonacularRecipe>
+  startDate: number
+}
+
+export const RecipeCardLite = ({ recipe }: { recipe: SpoonacularRecipe }) => {
   const viewRecipeURL = () => {
     Linking.canOpenURL(recipe.sourceUrl).then((supported) => {
       if (supported) {
@@ -28,6 +38,7 @@ export const RecipeCardLite = ({ recipe }) => {
         src={recipe.image}
         width={100}
         height={100}
+        alt={recipe.title}
         contentFit="cover"
         contentPosition="center"
         style={{
@@ -45,7 +56,7 @@ export const RecipeCardLite = ({ recipe }) => {
   )
 }
 
-export default function MealPlanRow({ mealPlan }) {
+export default function MealPlanRow({ mealPlan }: { mealPlan: MealPlan }) {
   const deleteMealPlan = useMutation(api.mealPlans.deleteMealPlan)
 
   const handleDelete = async () => {
