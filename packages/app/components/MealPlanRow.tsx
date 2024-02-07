@@ -1,9 +1,12 @@
+import { api } from 'app/convex/_generated/api'
 import { Pressable } from 'app/design/button'
 import { Text } from 'app/design/typography'
 import { View } from 'app/design/view'
+import { useMutation } from 'convex/react'
 import { Linking } from 'react-native'
 import { Icon } from 'react-native-eva-icons'
 import { SolitoImage } from 'solito/image'
+import * as Burnt from 'burnt'
 
 export const RecipeCardLite = ({ recipe }) => {
   const viewRecipeURL = () => {
@@ -43,6 +46,16 @@ export const RecipeCardLite = ({ recipe }) => {
 }
 
 export default function MealPlanRow({ mealPlan }) {
+  const deleteMealPlan = useMutation(api.mealPlans.deleteMealPlan)
+
+  const handleDelete = async () => {
+    await deleteMealPlan({ id: mealPlan._id })
+    await Burnt.toast({
+      title: 'Deleted meal plan!',
+      from: 'bottom',
+      preset: 'done',
+    })
+  }
   return (
     <View className="m-2 mb-4 rounded-3xl bg-white p-2 shadow sm:m-4">
       <View className="p-2">
@@ -51,7 +64,7 @@ export default function MealPlanRow({ mealPlan }) {
         </Text>
         <Pressable
           className="absolute right-2 top-2 rounded-full bg-red-500 p-1"
-          onPress={() => console.log('clicky button!')}
+          onPress={handleDelete}
         >
           <Icon name="trash-outline" width={16} height={16} fill={'white'} />
         </Pressable>

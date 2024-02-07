@@ -31,6 +31,15 @@ export const saveMealPlan = mutation({
   },
 })
 
+export const deleteMealPlan = mutation({
+  args: { id: v.id('mealPlans') },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) return
+    return await ctx.db.delete(args.id)
+  },
+})
+
 const nextDate = (dayOfWeek) => {
   const today = new Date()
   today.setDate(today.getDate() + ((dayOfWeek + (7 - today.getDay())) % 7))
