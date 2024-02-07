@@ -12,12 +12,12 @@ export default function Navbar() {
   const router = useRouter()
   const { isAuthenticated } = useConvexAuth()
   return (
-    <nav className="mb-2 flex w-full items-center justify-between bg-orange-500 p-2 px-8 text-white shadow">
+    <nav className="mb-2 flex w-full items-center justify-between bg-orange-500 p-2 px-4 text-white shadow sm:px-8">
       <div>
         <h1 className="cursor-default text-lg font-bold">Meal Plan Jackpot</h1>
       </div>
       <div className="">
-        <ul className="flex items-center space-x-12">
+        <ul className="flex items-center space-x-6 sm:space-x-12">
           <SignedIn>
             <li>
               <Link
@@ -29,9 +29,9 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href="/user/plans"
+                href="/plans"
                 className={
-                  router.pathname.startsWith('/user/') ? 'font-bold' : ''
+                  router.pathname.startsWith('/plans') ? 'font-bold' : ''
                 }
               >
                 Plans

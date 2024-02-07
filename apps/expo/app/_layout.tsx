@@ -67,6 +67,7 @@ export default function Root() {
         <Tabs.Screen
           options={{
             title: 'Plans',
+            headerTitleAlign: 'center',
             tabBarIcon: ({ size, color, focused }) => (
               <Icon
                 name="calendar-outline"
@@ -76,7 +77,7 @@ export default function Root() {
               />
             ),
           }}
-          name="user/[id]"
+          name="plans/index"
         />
         <Tabs.Screen
           options={{ href: null, title: 'Settings', headerLeft: BackButton }}
