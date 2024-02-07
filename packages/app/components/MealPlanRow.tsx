@@ -2,6 +2,7 @@ import { Pressable } from 'app/design/button'
 import { Text } from 'app/design/typography'
 import { View } from 'app/design/view'
 import { Linking } from 'react-native'
+import { Icon } from 'react-native-eva-icons'
 import { SolitoImage } from 'solito/image'
 
 export const RecipeCardLite = ({ recipe }) => {
@@ -48,6 +49,12 @@ export default function MealPlanRow({ mealPlan }) {
         <Text className="font-extrabold text-orange-500">
           Week of {new Date(mealPlan.startDate).toDateString()}
         </Text>
+        <Pressable
+          className="absolute right-2 top-2 rounded-full bg-red-500 p-1"
+          onPress={() => console.log('clicky button!')}
+        >
+          <Icon name="trash-outline" width={16} height={16} fill={'white'} />
+        </Pressable>
       </View>
       <View className="flex-row flex-wrap justify-around p-2 sm:justify-center lg:justify-start">
         {mealPlan.recipes.map((recipe) => (
