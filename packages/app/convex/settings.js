@@ -42,10 +42,6 @@ export const editUserSettings = mutation({
     intolerances: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.patch(args.id, {
-      numberOfRecipes: args.numberOfRecipes,
-      diet: args.diet ?? [],
-      intolerances: args.intolerances ?? [],
-    })
+    return await ctx.db.patch(args.id, args)
   },
 })

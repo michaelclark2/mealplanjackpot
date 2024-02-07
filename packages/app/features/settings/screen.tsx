@@ -3,7 +3,6 @@ import { Platform } from 'react-native'
 import { View } from 'app/design/view'
 import { Pressable } from 'app/design/button'
 import { SignedIn } from '@clerk/clerk-react'
-import { useState } from 'react'
 import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
 import { useMutation, useQuery } from 'convex/react'
@@ -25,6 +24,20 @@ export function SettingsScreen() {
     }
   }
 
+  const handleDietChange = (diet) => {
+    let newDiet = [...userSettings.diet]
+    const selected = newDiet.includes(diet)
+    if (selected) {
+      newDiet = newDiet.filter((d) => d !== diet)
+    } else {
+      newDiet.push(diet)
+    }
+    editUserSettings({
+      id: userSettings._id,
+      diet: newDiet,
+    })
+  }
+
   const renderDietChoices = () => {
     const SPOONACULAR_DIET_CHOICES = [
       ['vegetarian', 'Vegetarian'],
@@ -35,14 +48,22 @@ export function SettingsScreen() {
       ['whole30', 'Whole30'],
       ['paleo', 'Paleo'],
     ]
-    return SPOONACULAR_DIET_CHOICES.map((diet) => (
-      <Pressable
-        className="mb-1 mr-1 rounded border border-orange-500"
-        onPress={() => console.log(diet[0])}
-      >
-        <Text className="p-1">{diet[1]}</Text>
-      </Pressable>
-    ))
+    return SPOONACULAR_DIET_CHOICES.map((diet) => {
+      const selected = userSettings?.diet?.includes(diet[0])
+      const selectedButtonClass = selected
+        ? 'bg-orange-500'
+        : 'border border-orange-500'
+      return (
+        <Pressable
+          className={'mb-1 mr-1 rounded ' + selectedButtonClass}
+          onPress={() => handleDietChange(diet[0])}
+        >
+          <Text className={'p-1 ' + (selected ? 'text-white' : '')}>
+            {diet[1]}
+          </Text>
+        </Pressable>
+      )
+    })
   }
 
   const renderIntoleranceChoices = () => {
@@ -60,14 +81,20 @@ export function SettingsScreen() {
       ['sulfite', 'Sulfite'],
       ['wheat', 'Wheat'],
     ]
-    return SPOONACULAR_ALLERGY_CHOICES.map((intolerance) => (
-      <Pressable
-        className="mb-1 mr-1 rounded border border-orange-500"
-        onPress={() => console.log(intolerance[0])}
-      >
-        <Text className="p-1">{intolerance[1]}</Text>
-      </Pressable>
-    ))
+    return SPOONACULAR_ALLERGY_CHOICES.map((intolerance) => {
+      const selected = userSettings?.intolerance?.includes(intolerance[0])
+      const selectedButtonClass = selected
+        ? 'bg-orange-500'
+        : 'border border-orange-500'
+      return (
+        <Pressable
+          className="mb-1 mr-1 rounded border border-orange-500"
+          onPress={() => console.log(intolerance[0])}
+        >
+          <Text className="p-1">{intolerance[1]}</Text>
+        </Pressable>
+      )
+    })
   }
   return (
     <SignedIn>
