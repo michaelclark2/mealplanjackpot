@@ -1,8 +1,19 @@
+import { Pressable } from 'app/design/button'
 import { Text } from 'app/design/typography'
 import { View } from 'app/design/view'
+import { Linking } from 'react-native'
 import { SolitoImage } from 'solito/image'
 
 export default function MealPlanRow({ mealPlan }) {
+  const viewRecipeURL = (recipe) => {
+    Linking.canOpenURL(recipe.sourceUrl).then((supported) => {
+      if (supported) {
+        Linking.openURL(recipe.sourceUrl)
+      } else {
+        console.log('Cannot open url for some reason')
+      }
+    })
+  }
   return (
     <View className="m-2 mb-4 rounded-3xl bg-white p-2 shadow sm:m-4">
       <View className="p-2">
@@ -12,7 +23,10 @@ export default function MealPlanRow({ mealPlan }) {
       </View>
       <View className="flex-row flex-wrap justify-around p-2 sm:flex-row sm:justify-start sm:space-x-3">
         {mealPlan.recipes.map((recipe) => (
-          <View className="m-1 box-border h-auto w-[45%] rounded-3xl p-0 sm:m-0 sm:w-[13.5%]">
+          <Pressable
+            onPress={() => viewRecipeURL(recipe)}
+            className="m-1 box-border h-auto w-[45%] rounded-3xl p-0 sm:m-0 sm:w-[13.5%]"
+          >
             <SolitoImage
               src={recipe.image}
               width={100}
@@ -25,7 +39,7 @@ export default function MealPlanRow({ mealPlan }) {
             <Text className="p-2 text-xs font-bold leading-3  sm:leading-4">
               {recipe.title}
             </Text>
-          </View>
+          </Pressable>
         ))}
       </View>
     </View>
