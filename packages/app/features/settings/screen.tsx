@@ -112,8 +112,8 @@ export function SettingsScreen() {
     })
   }
   return (
-    <SignedIn accessibilityRole="main">
-      <View className="flex-1 p-4 md:p-8">
+    <SignedIn>
+      <View className="flex-1 p-4 md:p-8" accessibilityRole="main">
         {Platform.OS === 'web' ? (
           <Text className="text-lg font-bold">Settings</Text>
         ) : null}
