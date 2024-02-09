@@ -17,10 +17,16 @@ class Document extends NextDocument {
 
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" dir="ltr">
         <Head>
           <meta charSet="UTF-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          {/* Apple Touch */}
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <link rel="apple-touch-icon" href="/favicon.png" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+          {/* Microsoft Tiles */}
+          <meta name="msapplication-config" content="browserconfig.xml" />
         </Head>
         <body>
           <Main />

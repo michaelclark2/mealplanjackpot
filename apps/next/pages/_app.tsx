@@ -17,8 +17,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Meal Plan Jackpot</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="description"
+          content="Meal planning with a spin! Create a meal plan quickly with a large variety of delicious recipes in minutes."
+        />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <link rel="icon" type="image/png" href="/favicon.png" />
       </Head>
       <Provider>
         <Navbar />

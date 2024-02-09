@@ -129,6 +129,7 @@ export function HomeScreen() {
 
   return (
     <ScrollView
+      accessibilityRole="main"
       className="p-4 md:p-8"
       contentContainerStyle={{
         display: 'flex',

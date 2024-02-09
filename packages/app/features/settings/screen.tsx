@@ -112,7 +112,7 @@ export function SettingsScreen() {
     })
   }
   return (
-    <SignedIn>
+    <SignedIn accessibilityRole="main">
       <View className="flex-1 p-4 md:p-8">
         {Platform.OS === 'web' ? (
           <Text className="text-lg font-bold">Settings</Text>

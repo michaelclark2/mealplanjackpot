@@ -11,7 +11,11 @@ export function MealPlanListScreen() {
   const router = useRouter()
   const mealPlans = useQuery(api.mealPlans.getMealPlans)
   return (
-    <ScrollView className="p-4 sm:p-8" contentContainerStyle={{ flex: 0 }}>
+    <ScrollView
+      accessibilityRole="main"
+      className="p-4 sm:p-8"
+      contentContainerStyle={{ flex: 0 }}
+    >
       <View className="min-h-[50%] rounded-3xl bg-slate-200 p-4">
         <SignedIn>
           <View className="">
