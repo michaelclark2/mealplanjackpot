@@ -17,14 +17,10 @@ export const getMealPlans = query({
 export const saveMealPlan = mutation({
   args: { recipes: v.array(v.any()) },
   handler: async (ctx, args) => {
-    const recipes = args.recipes.map((recipe) => {
-      delete recipe.locked
-      return recipe
-    })
     const identity = await ctx.auth.getUserIdentity()
     const newMealPlanID = await ctx.db.insert('mealPlans', {
       identifier: identity.email,
-      recipes: recipes,
+      recipes: args.recipes,
       startDate: nextDate(0),
     })
     return newMealPlanID
