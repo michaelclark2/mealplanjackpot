@@ -19,6 +19,11 @@ H1.defaultProps = {
   accessibilityRole: 'header',
 }
 
+export const H2 = styled(NativeText, 'text-2xl font-extrabold my-4')
+H2.defaultProps = {
+  accessibilityLevel: 2,
+  accessibilityRole: 'header',
+}
 /**
  * This is a more advanced component with custom styles and per-platform functionality
  */
@@ -29,7 +34,7 @@ export interface AProps extends ComponentProps<typeof Text> {
 
 export const A = forwardRef<NativeText, StyledProps<AProps>>(function A(
   { className = '', href, target, ...props },
-  ref
+  ref,
 ) {
   const nativeAProps = Platform.select<Partial<AProps>>({
     web: {
