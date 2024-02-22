@@ -174,7 +174,7 @@ export function HomeScreen() {
           )}
         </View>
       </View>
-      <View className="w-full max-w-7xl flex-1 flex-col items-center justify-between">
+      <View className="mt-8 w-full max-w-7xl flex-1 flex-col items-center justify-between">
         <View className="m-3 sm:absolute sm:self-center">
           <SpinButton className="" onPress={() => getRandomRecipes()}>
             <Text className="text-xl font-extrabold text-white">Spin</Text>
