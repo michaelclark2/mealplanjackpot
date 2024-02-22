@@ -10,6 +10,7 @@ import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
 import { api } from 'app/convex/_generated/api'
 import * as Burnt from 'burnt'
+import { Platform } from 'react-native'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
@@ -219,11 +220,18 @@ function Instructions() {
   }) => {
     return (
       <View
-        className={`${className} m-auto mb-2 w-[47%] rounded-3xl bg-white p-2 shadow sm:m-2 sm:w-[23%]`}
+        className={`${className} mx-auto mb-2 w-[47%] rounded-3xl bg-white p-2 shadow sm:m-2 sm:w-[22%]`}
       >
         <View className="flex flex-row sm:flex-col">
-          <View className="absolute top-1 mx-auto mt-2 h-6 w-6 rounded-full bg-green-500 sm:static sm:flex sm:items-center sm:justify-center">
-            <P className="absolute left-2 top-0.5 m-0 p-0 text-sm font-black text-white sm:static">
+          <View className="absolute top-1 mx-auto mt-2 flex h-6 w-6 items-center justify-center rounded-full bg-green-500 sm:static">
+            <P
+              className="m-0 p-0 text-sm font-black text-white sm:static"
+              style={
+                Platform.OS != 'web'
+                  ? { position: 'absolute', left: 7, top: 2 }
+                  : {}
+              }
+            >
               {index}
             </P>
           </View>
