@@ -219,7 +219,7 @@ function Instructions() {
   }) => {
     return (
       <View
-        className={`${className} m-auto mb-2 w-[47%] rounded-3xl bg-white p-2 sm:m-2 sm:w-[23%]`}
+        className={`${className} m-auto mb-2 w-[47%] rounded-3xl bg-white p-2 shadow sm:m-2 sm:w-[23%]`}
       >
         <View className="flex flex-row sm:flex-col">
           <View className="absolute top-1 mx-auto mt-2 h-6 w-6 rounded-full bg-green-500 sm:static sm:flex sm:items-center sm:justify-center">
