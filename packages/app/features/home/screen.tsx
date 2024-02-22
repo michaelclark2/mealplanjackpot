@@ -133,7 +133,6 @@ export function HomeScreen() {
       className="p-4 md:p-8"
       contentContainerStyle={{
         display: 'flex',
-        //minHeight: 700,
         alignItems: 'center',
         justifyContent: 'space-between',
       }}
