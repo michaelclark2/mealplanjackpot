@@ -220,12 +220,12 @@ function Instructions() {
   }) => {
     return (
       <View
-        className={`${className} mx-auto mb-2 w-[47%] rounded-3xl bg-white p-2 shadow sm:m-2 sm:w-[22%]`}
+        className={`${className} mx-auto mb-2 w-full rounded-3xl bg-white p-2 shadow sm:m-2  sm:w-[47%] md:w-[22%]`}
       >
-        <View className="flex flex-row sm:flex-col">
-          <View className="absolute top-1 mx-auto mt-2 flex h-6 w-6 items-center justify-center rounded-full bg-green-500 sm:static">
+        <View className="flex flex-col md:flex-row lg:flex-col">
+          <View className="top-1 mx-auto mt-2 flex h-6 w-6 items-center justify-center rounded-full bg-green-500 md:static ">
             <P
-              className="m-0 p-0 text-sm font-black text-white sm:static"
+              className="m-0 p-0 text-sm font-black text-white"
               style={
                 Platform.OS != 'web'
                   ? { position: 'absolute', left: 7, top: 2 }
@@ -248,26 +248,27 @@ function Instructions() {
       <P className="text-center">Here's how it works:</P>
       <View className="flex flex-row flex-wrap justify-center">
         <Step title="Spin" index={1}>
-          <P className="p-2 pr-3 text-sm sm:text-base">
+          <P className="p-2 pr-3">
             Click 'Spin' to explore randomly selected recipes from a collection
             of over 5,000!
           </P>
         </Step>
         <Step title="Lock" index={2}>
-          <P className="p-2 pr-3 text-sm sm:text-base">
+          <P className="p-2 pr-3">
             Select and lock the recipes you wish to include in your meal plan.
           </P>
         </Step>
         <Step title="Spin" index={3}>
-          <P className="p-2 pr-3 text-sm sm:text-base">
+          <P className="p-2 pr-3">
             Keep spinning until your meal plan is locked in, replacing any
             recipes that don't fit into your plans.
           </P>
         </Step>
         <Step title="Save" index={4}>
-          <P className="p-2 pr-3 text-sm sm:text-base">
+          <P className="p-2 pr-3">
             Save your meal plan once you are satisfied with your choices. When
-            it's time to make dinner, you will know what to do!
+            it's time to make dinner, review your plans to check out your
+            recipes.
           </P>
         </Step>
       </View>
