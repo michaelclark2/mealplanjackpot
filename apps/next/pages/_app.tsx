@@ -26,6 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
         <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="canonical" href="https://mealplanjackpot.com" />
       </Head>
       <Provider>
         <Navbar />
