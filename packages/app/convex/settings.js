@@ -31,6 +31,7 @@ export const createUserSettings = internalMutation({
       numberOfRecipes: 4,
       diet: [],
       intolerances: [],
+      isSubscribed: false,
     })
   },
 })
@@ -43,6 +44,7 @@ export const editUserSettings = mutation({
     intolerances: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.patch(args.id, args)
+    const { id, ...newSettings } = args
+    return await ctx.db.patch(id, newSettings)
   },
 })
