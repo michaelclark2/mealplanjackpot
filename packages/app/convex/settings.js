@@ -14,7 +14,8 @@ export const getUserSettings = query({
     if (!identity) return DEFAULT_USERSETTINGS
 
     const userSettings = await ctx.db
-      .query('userSettings', (q) => q.eq(q.field('identifier'), identity.email))
+      .query('userSettings')
+      .withIndex('by_identifier', (q) => q.eq('identifier', identity.email))
       .unique()
 
     return userSettings ?? DEFAULT_USERSETTINGS
