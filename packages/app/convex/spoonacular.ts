@@ -12,7 +12,7 @@ export const complexSearch = internalAction({
       throw new ConvexError('Query parameters are incorrect')
     const baseURL = new URL('https://api.spoonacular.com/recipes/complexSearch')
     const defaultParams = {
-      apiKey: process.env.SPOONACULAR_APIKEY,
+      apiKey: process.env.SPOONACULAR_APIKEY!,
       addRecipeInformation: 'true',
       instructionsRequired: 'true',
       sort: 'random',
