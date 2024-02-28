@@ -8,7 +8,7 @@ export const getUserQuota = internalQuery({
   handler: async (ctx, args) => {
     const quota = await ctx.db
       .query('quotas')
-      .filter((q) => q.eq(q.field('identifier'), args.identifier))
+      .withIndex('by_identifier', (q) => q.eq('identifier', args.identifier))
       .unique()
     return quota
   },
