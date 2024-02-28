@@ -15,7 +15,7 @@ export const getUserSettings = query({
 
     const userSettings = await ctx.db
       .query('userSettings')
-      .withIndex('by_identifier', (q) => q.eq('identifier', identity.email))
+      .withIndex('by_identifier', (q) => q.eq('identifier', identity.email!))
       .unique()
 
     return userSettings ?? DEFAULT_USERSETTINGS
@@ -27,7 +27,7 @@ export const createUserSettings = internalMutation({
     const identity = await ctx.auth.getUserIdentity()
     if (!identity) return
     return await ctx.db.insert('userSettings', {
-      identifier: identity.email,
+      identifier: identity.email!,
       numberOfRecipes: 4,
       diet: [],
       intolerances: [],

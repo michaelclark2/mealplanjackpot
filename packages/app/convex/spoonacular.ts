@@ -21,7 +21,7 @@ export const complexSearch = internalAction({
       diet: args.diet?.join(','),
       intolerances: args.intolerances?.join(','),
     }
-    const params = new URLSearchParams(defaultParams)
+    const params = new URLSearchParams(defaultParams as Record<string, string>)
     const recipes = await fetch(baseURL + '?' + params)
     if (!recipes.ok) {
       console.log(recipes.statusText)

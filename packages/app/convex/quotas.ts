@@ -35,23 +35,24 @@ export const resetUserQuota = internalMutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
+    const queryLimit: number =
+      (identity
+        ? (process.env.QUOTA_LIMIT_AUTHED as unknown as number)
+        : (process.env.QUOTA_LIMIT_FREE as unknown as number)) * 1
+
     if (!args.quotaID) {
       console.log('new quota')
       return await ctx.db.insert('quotas', {
         identifier: args.identifier,
         last_reset_date: new Date().getTime(),
-        queryLimit: identity
-          ? process.env.QUOTA_LIMIT_AUTHED * 1
-          : process.env.QUOTA_LIMIT_FREE * 1,
+        queryLimit,
       })
     } else {
       console.log('updated quota')
       await ctx.db.patch(args.quotaID, {
         identifier: args.identifier,
         last_reset_date: new Date().getTime(),
-        queryLimit: identity
-          ? process.env.QUOTA_LIMIT_AUTHED * 1
-          : process.env.QUOTA_LIMIT_FREE * 1,
+        queryLimit,
       })
       return args.quotaID
     }

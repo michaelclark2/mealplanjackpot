@@ -1,4 +1,4 @@
-import { httpAction } from './_generated/server'
+import { ActionCtx, httpAction } from './_generated/server'
 import { internal, api } from './_generated/api'
 
 export const getRandom = httpAction(async (ctx, request) => {
@@ -8,13 +8,13 @@ export const getRandom = httpAction(async (ctx, request) => {
     : request.headers.get('x-forwarded-for') // ip address
 
   let results = []
-  const number = new URL(request.url).searchParams.get('number')
-  if (Number(number) > 0) {
+  const number = new URL(request.url).searchParams.get('number')!
+  if (Number(number) > 0 && identifier) {
     const quota = await getUserQuota(identifier, ctx)
-    if (quota.queryLimit > 0) {
-      const userSettings = await ctx.runQuery(api.settings.getUserSettings)
-      if (identity && userSettings.default) {
-        await ctx.runMutation(internal.settings.createUserSettings)
+    if (quota!.queryLimit > 0) {
+      const userSettings = await ctx.runQuery(api.settings.getUserSettings, {})
+      if (identity && userSettings.hasOwnProperty('default')) {
+        await ctx.runMutation(internal.settings.createUserSettings, {})
       }
       const recipes = await ctx.runAction(internal.spoonacular.complexSearch, {
         number,
@@ -23,15 +23,15 @@ export const getRandom = httpAction(async (ctx, request) => {
       })
       results = recipes['results']
       await ctx.runMutation(internal.quotas.updateQuota, {
-        quotaID: quota._id,
-        queryLimit: quota.queryLimit - 1,
+        quotaID: quota!._id,
+        queryLimit: quota!.queryLimit - 1,
       })
     } else {
       return new Response(null, {
         status: 429,
         statusText: 'Query limit reached',
         headers: new Headers({
-          'Access-Control-Allow-Origin': process.env.CLIENT_ORIGIN,
+          'Access-Control-Allow-Origin': process.env.CLIENT_ORIGIN!,
           Vary: 'origin',
         }),
       })
@@ -41,13 +41,13 @@ export const getRandom = httpAction(async (ctx, request) => {
   return new Response(JSON.stringify(results), {
     status: 200,
     headers: new Headers({
-      'Access-Control-Allow-Origin': process.env.CLIENT_ORIGIN,
+      'Access-Control-Allow-Origin': process.env.CLIENT_ORIGIN!,
       Vary: 'origin',
     }),
   })
 })
 
-const getUserQuota = async (identifier, ctx) => {
+const getUserQuota = async (identifier: string, ctx: ActionCtx) => {
   let quota = await ctx.runQuery(internal.quotas.getUserQuota, {
     identifier,
   })
