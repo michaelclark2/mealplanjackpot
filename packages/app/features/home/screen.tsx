@@ -11,6 +11,7 @@ import colors from 'tailwindcss/colors'
 import { api } from 'app/convex/_generated/api'
 import * as Burnt from 'burnt'
 import { Platform } from 'react-native'
+import { Doc } from 'app/convex/_generated/dataModel'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
