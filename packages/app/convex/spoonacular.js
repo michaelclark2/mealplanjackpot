@@ -14,6 +14,7 @@ export const complexSearch = internalAction({
     const defaultParams = {
       apiKey: process.env.SPOONACULAR_APIKEY,
       addRecipeInformation: 'true',
+      instructionsRequired: 'true',
       sort: 'random',
       type: 'main course',
       number: args.number,
