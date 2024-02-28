@@ -7,7 +7,7 @@ export const getMealPlans = query({
     if (identity === null) return
     const mealPlans = await ctx.db
       .query('mealPlans')
-      .filter((q) => q.eq(q.field('identifier'), identity.email))
+      .withIndex('by_identifier', (q) => q.eq('identifier', identity.email))
       .order('desc')
       .collect()
     return mealPlans

@@ -7,46 +7,47 @@ import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from 'app/convex/_generated/api'
+import { Doc } from 'app/convex/_generated/dataModel'
 
 export function SettingsScreen() {
   const userSettings = useQuery(api.settings.getUserSettings, {})
   const editUserSettings = useMutation(api.settings.editUserSettings)
 
   const handleNumberChange = (amount: number) => {
-    if (
-      userSettings.numberOfRecipes + amount >= 1 &&
-      userSettings.numberOfRecipes + amount <= 7
-    ) {
+    const { _id, numberOfRecipes } = userSettings as Doc<'userSettings'>
+    if (numberOfRecipes + amount >= 1 && numberOfRecipes + amount <= 7) {
       editUserSettings({
-        id: userSettings._id,
-        numberOfRecipes: userSettings.numberOfRecipes + amount,
+        id: _id,
+        numberOfRecipes: numberOfRecipes + amount,
       })
     }
   }
 
-  const handleDietChange = (diet: string) => {
-    let newDiet = [...userSettings.diet]
-    const selected = newDiet.includes(diet)
+  const handleDietChange = (dietToAdd: string) => {
+    const { _id, diet } = userSettings as Doc<'userSettings'>
+    let newDiet = [...diet]
+    const selected = newDiet.includes(dietToAdd)
     if (selected) {
-      newDiet = newDiet.filter((d) => d !== diet)
+      newDiet = newDiet.filter((d) => d !== dietToAdd)
     } else {
-      newDiet.push(diet)
+      newDiet.push(dietToAdd)
     }
     editUserSettings({
-      id: userSettings._id,
+      id: _id,
       diet: newDiet,
     })
   }
-  const handleIntoleranceChange = (intolerance: string) => {
-    let newIntolerances = [...userSettings.intolerances]
-    const selected = newIntolerances.includes(intolerance)
+  const handleIntoleranceChange = (intoleranceToAdd: string) => {
+    const { _id, intolerances } = userSettings as Doc<'userSettings'>
+    let newIntolerances = [...intolerances]
+    const selected = newIntolerances.includes(intoleranceToAdd)
     if (selected) {
-      newIntolerances = newIntolerances.filter((i) => i !== intolerance)
+      newIntolerances = newIntolerances.filter((i) => i !== intoleranceToAdd)
     } else {
-      newIntolerances.push(intolerance)
+      newIntolerances.push(intoleranceToAdd)
     }
     editUserSettings({
-      id: userSettings._id,
+      id: _id,
       intolerances: newIntolerances,
     })
   }
@@ -61,18 +62,19 @@ export function SettingsScreen() {
       ['whole30', 'Whole30'],
       ['paleo', 'Paleo'],
     ]
-    return SPOONACULAR_DIET_CHOICES.map((diet) => {
-      const selected = userSettings?.diet?.includes(diet[0])
+    return SPOONACULAR_DIET_CHOICES.map((dietChoice) => {
+      const { diet } = userSettings as Doc<'userSettings'>
+      const selected = diet.includes(dietChoice[0])
       const selectedButtonClass = selected
         ? 'bg-orange-500'
         : 'border border-orange-500'
       return (
         <Pressable
           className={'mb-1 mr-1 rounded ' + selectedButtonClass}
-          onPress={() => handleDietChange(diet[0])}
+          onPress={() => handleDietChange(dietChoice[0])}
         >
           <Text className={'p-2 ' + (selected ? 'text-white' : '')}>
-            {diet[1]}
+            {dietChoice[1]}
           </Text>
         </Pressable>
       )
@@ -94,23 +96,25 @@ export function SettingsScreen() {
       ['sulfite', 'Sulfite'],
       ['wheat', 'Wheat'],
     ]
-    return SPOONACULAR_ALLERGY_CHOICES.map((intolerance) => {
-      const selected = userSettings?.intolerances?.includes(intolerance[0])
+    return SPOONACULAR_ALLERGY_CHOICES.map((intoleranceChoice) => {
+      const { intolerances } = userSettings as Doc<'userSettings'>
+      const selected = intolerances.includes(intoleranceChoice[0])
       const selectedButtonClass = selected
         ? 'bg-orange-500'
         : 'border border-orange-500'
       return (
         <Pressable
           className={'mb-1 mr-1 rounded ' + selectedButtonClass}
-          onPress={() => handleIntoleranceChange(intolerance[0])}
+          onPress={() => handleIntoleranceChange(intoleranceChoice[0])}
         >
           <Text className={'p-2 ' + (selected ? 'text-white' : '')}>
-            {intolerance[1]}
+            {intoleranceChoice[1]}
           </Text>
         </Pressable>
       )
     })
   }
+  if (!userSettings) return
   return (
     <SignedIn>
       <View className="flex-1 p-4 md:p-8" accessibilityRole="main">
@@ -130,7 +134,7 @@ export function SettingsScreen() {
                 />
               </Pressable>
               <Text className="mx-2 text-3xl font-bold">
-                {userSettings?.numberOfRecipes}
+                {userSettings.numberOfRecipes}
               </Text>
               <Pressable onPress={() => handleNumberChange(1)}>
                 <Icon

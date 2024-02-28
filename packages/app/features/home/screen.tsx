@@ -11,6 +11,7 @@ import colors from 'tailwindcss/colors'
 import { api } from 'app/convex/_generated/api'
 import * as Burnt from 'burnt'
 import { Platform } from 'react-native'
+import { Doc } from 'app/convex/_generated/dataModel'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
@@ -27,8 +28,8 @@ export function HomeScreen() {
   const userSettings = useQuery(api.settings.getUserSettings, {})
 
   const getRandomRecipes = async () => {
-    const numberOfRecipesToSpin =
-      userSettings.numberOfRecipes - lockedRecipeCount
+    const { numberOfRecipes } = userSettings as Doc<'userSettings'>
+    const numberOfRecipesToSpin = numberOfRecipes - lockedRecipeCount
 
     const url = new URL(
       (process.env.NEXT_PUBLIC_CONVEX_SITE ??
