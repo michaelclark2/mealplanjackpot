@@ -28,8 +28,8 @@ export function HomeScreen() {
   const userSettings = useQuery(api.settings.getUserSettings, {})
 
   const getRandomRecipes = async () => {
-    const numberOfRecipesToSpin =
-      userSettings.numberOfRecipes - lockedRecipeCount
+    const { numberOfRecipes } = userSettings as Doc<'userSettings'>
+    const numberOfRecipesToSpin = numberOfRecipes - lockedRecipeCount
 
     const url = new URL(
       (process.env.NEXT_PUBLIC_CONVEX_SITE ??

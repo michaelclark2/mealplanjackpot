@@ -8,15 +8,7 @@ import { Icon } from 'react-native-eva-icons'
 import { SolitoImage } from 'solito/image'
 import { SpoonacularRecipe } from './RecipeCard'
 import * as Burnt from 'burnt'
-import { Id } from 'app/convex/_generated/dataModel'
-
-export interface MealPlan {
-  _id: Id<'mealPlans'>
-  identifier: string
-  _createdTime: number
-  recipes: Array<SpoonacularRecipe>
-  startDate: number
-}
+import { Doc } from 'app/convex/_generated/dataModel'
 
 export const RecipeCardLite = ({ recipe }: { recipe: SpoonacularRecipe }) => {
   const viewRecipeURL = () => {
@@ -56,7 +48,11 @@ export const RecipeCardLite = ({ recipe }: { recipe: SpoonacularRecipe }) => {
   )
 }
 
-export default function MealPlanRow({ mealPlan }: { mealPlan: MealPlan }) {
+export default function MealPlanRow({
+  mealPlan,
+}: {
+  mealPlan: Doc<'mealPlans'>
+}) {
   const deleteMealPlan = useMutation(api.mealPlans.deleteMealPlan)
 
   const handleDelete = async () => {
