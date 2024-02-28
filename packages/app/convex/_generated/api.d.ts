@@ -18,7 +18,6 @@ import type * as http from "../http.js";
 import type * as mealPlans from "../mealPlans.js";
 import type * as quotas from "../quotas.js";
 import type * as recipes from "../recipes.js";
-import type * as schema from "../schema.js";
 import type * as settings from "../settings.js";
 import type * as spoonacular from "../spoonacular.js";
 
@@ -35,7 +34,6 @@ declare const fullApi: ApiFromModules<{
   mealPlans: typeof mealPlans;
   quotas: typeof quotas;
   recipes: typeof recipes;
-  schema: typeof schema;
   settings: typeof settings;
   spoonacular: typeof spoonacular;
 }>;
