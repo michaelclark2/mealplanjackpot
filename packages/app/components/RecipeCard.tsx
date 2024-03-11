@@ -2,9 +2,45 @@ import { Text } from 'app/design/typography'
 import { View } from 'app/design/view'
 import { SolitoImage } from 'solito/image'
 import { Icon } from 'react-native-eva-icons'
+import Quick from 'app/icons/Quick'
+import DairyFree from 'app/icons/DairyFree'
+import GlutenFree from 'app/icons/GlutenFree'
+import Vegetarian from 'app/icons/Vegetarian'
+import Vegan from 'app/icons/Vegan'
 import colors from 'tailwindcss/colors'
 import { Pressable } from 'app/design/button'
 import { ActivityIndicator, Linking } from 'react-native'
+
+const renderBadges = (recipe: SpoonacularRecipe) => {
+  const badges = []
+  if (recipe.vegan)
+    badges.push(<Vegan key="vegan" fill={colors.green['700']} />)
+  if (recipe.vegetarian && !recipe.vegan)
+    badges.push(<Vegetarian key="vegetarian" fill={colors.green['700']} />)
+  if (recipe.readyInMinutes <= 30)
+    badges.push(
+      <Quick key="quick" width={18} height={18} fill={colors.yellow['500']} />,
+    )
+  if (recipe.dairyFree)
+    badges.push(
+      <DairyFree
+        height={18}
+        width={18}
+        key="dairyfree"
+        fill={colors.red['500']}
+      />,
+    )
+  if (recipe.glutenFree)
+    badges.push(
+      <GlutenFree
+        key="glutenfree"
+        width={18}
+        height={18}
+        fill={colors.yellow['700']}
+      />,
+    )
+  return badges
+}
 
 export interface SpoonacularRecipe {
   id: number
@@ -37,44 +73,7 @@ const RecipeCard = ({
       }
     })
   }
-  const renderBadges = () => {
-    const badges = []
-    if (recipe.vegan)
-      badges.push(
-        <Text key="vegan" className="text-lg text-green-700">
-          &#9445;
-        </Text>,
-      )
-    if (recipe.vegetarian && !recipe.vegan)
-      badges.push(
-        <Text key="vegetarian" className="text-lg text-green-700">
-          V
-        </Text>,
-      )
-    if (recipe.readyInMinutes <= 30)
-      badges.push(
-        <Icon
-          key="quick"
-          name="flash"
-          width={18}
-          height={18}
-          fill={colors.yellow['500']}
-        />,
-      )
-    if (recipe.dairyFree)
-      badges.push(
-        <Text key="dairyfree" className="text-lg text-red-500">
-          &spades;
-        </Text>,
-      )
-    if (recipe.glutenFree)
-      badges.push(
-        <Text key="glutenfree" className="text-lg text-yellow-700">
-          &clubs;
-        </Text>,
-      )
-    return badges
-  }
+
   const lockedStyles =
     ' ' +
     (recipe.locked
@@ -128,7 +127,7 @@ const RecipeCard = ({
           <Text className="text-lg font-bold leading-5">{recipe.title}</Text>
         </Pressable>
         <View className="w-full flex-row items-center justify-center space-x-2">
-          {renderBadges()}
+          {renderBadges(recipe)}
         </View>
         <View className="grow items-center justify-end sm:flex-row sm:items-end">
           <View className="mr-1 flex-row items-center justify-center">
