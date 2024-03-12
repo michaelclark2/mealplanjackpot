@@ -1,8 +1,16 @@
-export default function Icon(props) {
-  const { fill, width, height } = props
+import Svg, { Path } from 'react-native-svg'
+
+export default function Icon({
+  fill,
+  width,
+  height,
+}: {
+  fill?: string
+  width?: number
+  height?: number
+}) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
+    <Svg
       width={width ?? 24}
       height={height ?? 24}
       viewBox="0 0 24 24"
@@ -13,8 +21,8 @@ export default function Icon(props) {
       strokeLinejoin="round"
       className="icon icon-tabler icons-tabler-outline icon-tabler-letter-v-small"
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path stroke={fill} d="M10 8l2 8l2 -8" />
-    </svg>
+      <Path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <Path stroke={fill} d="M10 8l2 8l2 -8" />
+    </Svg>
   )
 }
