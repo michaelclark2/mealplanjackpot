@@ -12,6 +12,7 @@ import { api } from 'app/convex/_generated/api'
 import * as Burnt from 'burnt'
 import { Platform } from 'react-native'
 import { Doc } from 'app/convex/_generated/dataModel'
+import Legend from 'app/components/BadgeLegend'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
@@ -175,6 +176,11 @@ export function HomeScreen() {
           )}
         </View>
       </View>
+      {recipes?.length > 0 && (
+        <View className="ml-auto">
+          <Legend />
+        </View>
+      )}
       <View className="mt-8 w-full max-w-7xl flex-1 flex-col items-center justify-between">
         <View className="m-3 sm:absolute sm:self-center">
           <SpinButton className="" onPress={() => getRandomRecipes()}>
