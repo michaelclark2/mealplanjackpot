@@ -19,6 +19,7 @@ import type * as mealPlans from "../mealPlans.js";
 import type * as quotas from "../quotas.js";
 import type * as recipes from "../recipes.js";
 import type * as settings from "../settings.js";
+import type * as shoppingLists from "../shoppingLists.js";
 import type * as spoonacular from "../spoonacular.js";
 
 /**
@@ -35,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   quotas: typeof quotas;
   recipes: typeof recipes;
   settings: typeof settings;
+  shoppingLists: typeof shoppingLists;
   spoonacular: typeof spoonacular;
 }>;
 export declare const api: FilterApi<
