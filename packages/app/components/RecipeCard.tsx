@@ -9,7 +9,7 @@ import Vegetarian from 'app/icons/Vegetarian'
 import Vegan from 'app/icons/Vegan'
 import colors from 'tailwindcss/colors'
 import { Pressable } from 'app/design/button'
-import { ActivityIndicator, Linking } from 'react-native'
+import { ActivityIndicator, Linking, Platform } from 'react-native'
 
 const renderBadges = (recipe: SpoonacularRecipe) => {
   const badges = []
@@ -59,10 +59,12 @@ export interface SpoonacularRecipe {
 
 const RecipeCard = ({
   recipe,
-  lockRecipe,
+  action,
+  showLocked,
 }: {
   recipe: SpoonacularRecipe
-  lockRecipe?: (recipe: SpoonacularRecipe) => void
+  action?: (recipe: SpoonacularRecipe) => void
+  showLocked?: boolean
 }) => {
   const viewRecipeURL = () => {
     Linking.canOpenURL(recipe.sourceUrl).then((supported) => {
@@ -76,7 +78,7 @@ const RecipeCard = ({
 
   const lockedStyles =
     ' ' +
-    (recipe.locked && lockRecipe
+    (showLocked && recipe.locked
       ? 'sm:outline sm:outline-blue-500 border-2 border-blue-500 sm:border-0'
       : '')
 
@@ -96,26 +98,28 @@ const RecipeCard = ({
     >
       <Pressable
         className="w-full object-cover p-1"
-        onPress={() => (lockRecipe ? lockRecipe(recipe) : null)}
+        onPress={() => (action ? action(recipe) : viewRecipeURL())}
       >
-        <View
-          className={
-            'absolute left-3 top-3 rounded-full p-1 ' +
-            (recipe.locked ? 'bg-orange-500' : 'bg-orange-500/75')
-          }
-        >
-          <Icon
-            name={recipe.locked ? 'lock' : 'unlock'}
-            height={18}
-            width={18}
-            opacity={recipe.locked ? 1 : 0.75}
-            fill={'white'}
-          />
-        </View>
+        {showLocked && (
+          <View
+            className={
+              'absolute left-3 top-3 rounded-full p-1 ' +
+              (recipe.locked ? 'bg-orange-500' : 'bg-orange-500/75')
+            }
+          >
+            <Icon
+              name={recipe.locked ? 'lock' : 'unlock'}
+              height={18}
+              width={18}
+              opacity={recipe.locked ? 1 : 0.75}
+              fill={'white'}
+            />
+          </View>
+        )}
         <SolitoImage
           src={recipe?.image}
-          width={100}
-          height={100}
+          width={Platform.OS === 'web' ? 300 : 100}
+          height={Platform.OS === 'web' ? 300 : 100}
           alt={recipe.title}
           contentFit="cover"
           contentPosition="center"

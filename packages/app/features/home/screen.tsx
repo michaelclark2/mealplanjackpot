@@ -169,7 +169,12 @@ export function HomeScreen() {
           ) : null}
           {recipes?.length > 0 ? (
             recipes?.map((r) => (
-              <RecipeCard lockRecipe={lockRecipe} key={r.id} recipe={r} />
+              <RecipeCard
+                action={lockRecipe}
+                key={r.id}
+                recipe={r}
+                showLocked
+              />
             ))
           ) : (
             <Instructions />
