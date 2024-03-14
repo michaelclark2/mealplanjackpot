@@ -1,3 +1,4 @@
+import MealPlanNavTabs from 'app/components/MealPlanNavTabs'
 import RecipeCard from 'app/components/RecipeCard'
 import { api } from 'app/convex/_generated/api'
 import { Id } from 'app/convex/_generated/dataModel'
@@ -25,14 +26,7 @@ export function MealPlanDetailScreen() {
         justifyContent: 'space-between',
       }}
     >
-      <View className="mb-8">
-        <TextLink
-          href={`/plans/${mealPlanId}/list/`}
-          className="rounded-3xl bg-slate-200 p-6"
-        >
-          Shopping List
-        </TextLink>
-      </View>
+      <MealPlanNavTabs mealPlanId={mealPlanId} />
       <View className="w-full max-w-7xl rounded-3xl bg-slate-200">
         <View className="flex w-full flex-row flex-wrap justify-center p-2">
           {getMealPlan?.recipes.map((recipe) => <RecipeCard recipe={recipe} />)}

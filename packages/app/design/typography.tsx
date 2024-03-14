@@ -79,4 +79,4 @@ export const TextLink = styled<
       {...props}
     />
   )
-}, 'text-base font-bold hover:underline text-blue-500')
+}, 'text-base font-bold hover:underline')
