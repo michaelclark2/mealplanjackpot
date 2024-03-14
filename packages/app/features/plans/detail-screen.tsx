@@ -1,5 +1,9 @@
+import RecipeCard from 'app/components/RecipeCard'
+import { api } from 'app/convex/_generated/api'
+import { Id } from 'app/convex/_generated/dataModel'
 import { Text, TextLink } from 'app/design/typography'
-import { View } from 'app/design/view'
+import { ScrollView, View } from 'app/design/view'
+import { useQuery } from 'convex/react'
 import { createParam } from 'solito'
 type Params = {
   mealPlanId: string
@@ -9,13 +13,31 @@ const { useParam, useParams } = createParam<Params>()
 
 export function MealPlanDetailScreen() {
   const { params, setParams } = useParams()
-  const mealPlanId = params.mealPlanId
+  const mealPlanId = params.mealPlanId as Id<'mealPlans'>
+  const getMealPlan = useQuery(api.mealPlans.getMealPlan, { mealPlanId })
   return (
-    <View>
-      <Text>Meal Plan Detail: {mealPlanId}</Text>
-      <TextLink href={`/plans/${mealPlanId}/list/`}>
-        View Shopping List
-      </TextLink>
-    </View>
+    <ScrollView
+      accessibilityRole="main"
+      className="p-4 md:p-8"
+      contentContainerStyle={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
+      <View className="mb-8">
+        <TextLink
+          href={`/plans/${mealPlanId}/list/`}
+          className="rounded-3xl bg-slate-200 p-6"
+        >
+          Shopping List
+        </TextLink>
+      </View>
+      <View className="w-full max-w-7xl rounded-3xl bg-slate-200">
+        <View className="flex w-full flex-row flex-wrap justify-center p-2">
+          {getMealPlan?.recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
+        </View>
+      </View>
+    </ScrollView>
   )
 }

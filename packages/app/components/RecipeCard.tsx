@@ -62,7 +62,7 @@ const RecipeCard = ({
   lockRecipe,
 }: {
   recipe: SpoonacularRecipe
-  lockRecipe: (recipe: SpoonacularRecipe) => void
+  lockRecipe?: (recipe: SpoonacularRecipe) => void
 }) => {
   const viewRecipeURL = () => {
     Linking.canOpenURL(recipe.sourceUrl).then((supported) => {
@@ -76,7 +76,7 @@ const RecipeCard = ({
 
   const lockedStyles =
     ' ' +
-    (recipe.locked
+    (recipe.locked && lockRecipe
       ? 'sm:outline sm:outline-blue-500 border-2 border-blue-500 sm:border-0'
       : '')
 
@@ -96,7 +96,7 @@ const RecipeCard = ({
     >
       <Pressable
         className="w-full object-cover p-1"
-        onPress={() => lockRecipe(recipe)}
+        onPress={() => (lockRecipe ? lockRecipe(recipe) : null)}
       >
         <View
           className={
