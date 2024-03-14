@@ -1,6 +1,14 @@
 import { v } from 'convex/values'
 import { query, mutation } from './_generated/server'
 
+export const getMealPlan = query({
+  args: {
+    mealPlanId: v.id('mealPlans'),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.mealPlanId)
+  },
+})
 export const getMealPlans = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity()
