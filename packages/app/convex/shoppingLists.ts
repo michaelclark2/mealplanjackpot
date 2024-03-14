@@ -60,7 +60,7 @@ export const createShoppingListByMealPlanId = action({
         })
         return groupedIngredientsByName
       },
-      {},
+      {} as Record<string, Array<any>>,
     )
 
     console.log(groupedIngredientsByName)

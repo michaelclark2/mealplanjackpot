@@ -1,14 +1,16 @@
 import { api } from 'app/convex/_generated/api'
 import { Pressable } from 'app/design/button'
-import { Text } from 'app/design/typography'
+import { Text, TextLink } from 'app/design/typography'
 import { View } from 'app/design/view'
 import { useMutation } from 'convex/react'
 import { Linking } from 'react-native'
-import { Icon } from 'react-native-eva-icons'
+import ArrowRight from 'app/icons/ArrowRight'
 import { SolitoImage } from 'solito/image'
 import { SpoonacularRecipe } from './RecipeCard'
 import * as Burnt from 'burnt'
 import { Doc } from 'app/convex/_generated/dataModel'
+import colors from 'tailwindcss/colors'
+import { Link } from 'solito/link'
 
 export const RecipeCardLite = ({ recipe }: { recipe: SpoonacularRecipe }) => {
   const viewRecipeURL = () => {
@@ -63,18 +65,24 @@ export default function MealPlanRow({
       preset: 'done',
     })
   }
+
   return (
     <View className="m-2 mb-4 rounded-3xl bg-white p-2 shadow sm:m-4">
       <View className="p-2">
-        <Text className="font-extrabold text-orange-500">
-          Week of {new Date(mealPlan.startDate).toDateString()}
-        </Text>
-        <Pressable
-          className="absolute right-2 top-2 rounded-full bg-red-500 p-1"
-          onPress={handleDelete}
+        <TextLink
+          className="font-extrabold text-orange-500"
+          href={`/plans/${mealPlan._id}`}
         >
-          <Icon name="trash-outline" width={16} height={16} fill={'white'} />
-        </Pressable>
+          Week of {new Date(mealPlan.startDate).toDateString()}
+        </TextLink>
+        <View
+          className="absolute right-2 top-2 rounded-full bg-orange-500 p-1 text-white"
+          // onPress={handleDelete}
+        >
+          <Link href={`/plans/${mealPlan._id}`}>
+            <ArrowRight width={16} height={16} fill={colors.white} />
+          </Link>
+        </View>
       </View>
       <View className="flex-row flex-wrap justify-around p-2 sm:justify-center lg:justify-start">
         {mealPlan.recipes.map((recipe) => (
