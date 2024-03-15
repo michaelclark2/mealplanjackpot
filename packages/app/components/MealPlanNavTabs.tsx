@@ -14,8 +14,8 @@ export default function MealPlanNavTabs({
   mealPlanId: Id<'mealPlans'>
   activeTab: ActiveTabOptions
 }) {
-  const activeClass = 'border border-orange-600 bg-orange-500 shadow'
-  const inactiveClass = 'border border-orange-300 bg-orange-200'
+  const activeClass = 'border-4 border-orange-600 bg-orange-500 shadow'
+  const inactiveClass = 'border-4 border-orange-300 bg-orange-200'
   return (
     <View className="mb-4 flex w-full flex-row items-center justify-between space-x-4 sm:mb-8">
       <View className="sm:flex-1" />
@@ -25,7 +25,10 @@ export default function MealPlanNavTabs({
           (activeTab === ActiveTabOptions.recipes ? activeClass : inactiveClass)
         }
       >
-        <TextLink href={`/plans/${mealPlanId}/`} className="p-6 text-center">
+        <TextLink
+          href={`/plans/${mealPlanId}/`}
+          className="p-6 text-center hover:no-underline"
+        >
           Recipes
         </TextLink>
       </View>
@@ -37,7 +40,7 @@ export default function MealPlanNavTabs({
       >
         <TextLink
           href={`/plans/${mealPlanId}/list/`}
-          className="p-6 text-center"
+          className="p-6 text-center hover:no-underline"
         >
           Shopping List
         </TextLink>
