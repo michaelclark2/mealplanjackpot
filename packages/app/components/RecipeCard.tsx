@@ -63,7 +63,7 @@ const RecipeCard = ({
   showLocked,
 }: {
   recipe: SpoonacularRecipe
-  action?: (any) => any
+  action?: Function
   showLocked?: boolean
 }) => {
   const viewRecipeURL = () => {
