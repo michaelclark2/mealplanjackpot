@@ -1,3 +1,4 @@
+import { Pressable } from 'app/design/button'
 import { Text } from 'app/design/typography'
 import { View } from 'app/design/view'
 
@@ -24,12 +25,19 @@ export default function ShoppingListItem({
   listItem: ListItem
 }) {
   return (
-    <View className="my-2 flex flex-row items-center justify-between rounded-full bg-slate-200 p-2">
+    <Pressable
+      className="my-2 flex flex-row items-center justify-between rounded-full bg-slate-200 p-2"
+      onPress={() => updateShoppingList(listItem.name)}
+    >
       <View className="rounded-full bg-white p-2">
         {isCompleted ? <SquareCheck fill="black" /> : <Square fill="black" />}
       </View>
       <View className="flex-1 flex-row items-center justify-between">
-        <Text className="ml-4 text-lg">{toProperCase(listItem.name)}</Text>
+        <Text
+          className={'ml-4 text-lg ' + (isCompleted ? 'text-slate-500' : '')}
+        >
+          {toProperCase(listItem.name)}
+        </Text>
         <View className="max-w-1/2 -m-2 flex flex-row rounded-full border-2 border-slate-200 bg-white p-1">
           {listItem.measures.map((measure) => (
             <View className="mx-1 min-h-[48px] min-w-[48px] rounded-full bg-orange-500">
@@ -43,7 +51,7 @@ export default function ShoppingListItem({
           ))}
         </View>
       </View>
-    </View>
+    </Pressable>
   )
 }
 

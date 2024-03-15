@@ -1,5 +1,5 @@
 import { v } from 'convex/values'
-import { action, internalMutation, query } from './_generated/server'
+import { action, internalMutation, mutation, query } from './_generated/server'
 import { api, internal } from './_generated/api'
 import { SpoonacularRecipe } from 'app/components/RecipeCard'
 import { Doc } from './_generated/dataModel'
@@ -36,6 +36,20 @@ export const createShoppingList = internalMutation({
       identifier: identity.email as string,
       mealPlanId: args.mealPlanId,
       list: args.ingredientsList,
+      completedItems: [],
+    })
+  },
+})
+
+export const updateShoppingList = mutation({
+  args: {
+    shoppingListId: v.id('shoppingLists'),
+    list: v.optional(v.any()),
+    completedItems: v.optional(v.array(v.string())),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.patch(args.shoppingListId, {
+      completedItems: args.completedItems,
     })
   },
 })
