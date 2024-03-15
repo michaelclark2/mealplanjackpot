@@ -43,8 +43,12 @@ export function ShoppingListScreen() {
         mealPlanId={mealPlanId}
         activeTab={ActiveTabOptions.list}
       />
-      {shoppingList &&
-        shoppingList?.list.map((item) => <ShoppingListItem listItem={item} />)}
+      <View className="w-full md:w-4/5 lg:w-1/2">
+        {shoppingList &&
+          shoppingList?.list.map((item) => (
+            <ShoppingListItem listItem={item} />
+          ))}
+      </View>
     </ScrollView>
   )
 }
