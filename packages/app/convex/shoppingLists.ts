@@ -1,11 +1,12 @@
 import { v } from 'convex/values'
-import { action, query } from './_generated/server'
-import { api } from './_generated/api'
+import { action, internalMutation, query } from './_generated/server'
+import { api, internal } from './_generated/api'
 
 const PANTRY_INGREDIENT_NAMES = [
   'black pepper',
   'salt and pepper',
   'table salt',
+  'water',
 ]
 
 export const getShoppingList = query({
@@ -15,7 +16,6 @@ export const getShoppingList = query({
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
     if (identity === null) return
-
     return await ctx.db
       .query('shoppingLists')
       .withIndex('by_identifier_and_mealPlanId', (q) =>
@@ -25,11 +25,24 @@ export const getShoppingList = query({
   },
 })
 
+export const createShoppingList = internalMutation({
+  args: { ingredientsList: v.any(), mealPlanId: v.id('mealPlans') },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (identity === null) return
+    return await ctx.db.insert('shoppingLists', {
+      identifier: identity.email as string,
+      mealPlanId: args.mealPlanId,
+      list: args.ingredientsList,
+    })
+  },
+})
+
 export const createShoppingListByMealPlanId = action({
   args: { mealPlanId: v.id('mealPlans') },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-    // if (identity === null) return
+    if (identity === null) return
     const mealPlan = await ctx.runQuery(api.mealPlans.getMealPlan, {
       mealPlanId: args.mealPlanId,
     })
@@ -62,7 +75,9 @@ export const createShoppingListByMealPlanId = action({
       },
       {} as Record<string, Array<any>>,
     )
-
-    console.log(groupedIngredientsByName)
+    return await ctx.runMutation(internal.shoppingLists.createShoppingList, {
+      mealPlanId: mealPlan._id,
+      ingredientsList: groupedIngredientsByName,
+    })
   },
 })

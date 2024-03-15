@@ -17,7 +17,7 @@ export default defineSchema({
   shoppingLists: defineTable({
     identifier: v.string(),
     mealPlanId: v.id('mealPlans'),
-    list: v.array(v.any()),
+    list: v.any(),
   }).index('by_identifier_and_mealPlanId', ['identifier', 'mealPlanId']),
   mealPlans: defineTable({
     identifier: v.string(),
