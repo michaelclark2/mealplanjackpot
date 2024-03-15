@@ -34,7 +34,9 @@ export default function ShoppingListItem({
       </View>
       <View className="flex-1 flex-row items-center justify-between">
         <Text
-          className={'ml-4 text-lg ' + (isCompleted ? 'text-slate-500' : '')}
+          className={
+            'ml-4 text-lg ' + (isCompleted ? 'text-slate-500 line-through' : '')
+          }
         >
           {toProperCase(listItem.name)}
         </Text>
