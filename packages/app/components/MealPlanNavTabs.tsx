@@ -18,6 +18,7 @@ export default function MealPlanNavTabs({
   const inactiveClass = 'border border-orange-300 bg-orange-200'
   return (
     <View className="mb-4 flex w-full flex-row items-center justify-between space-x-4 sm:mb-8">
+      <View className="sm:flex-1" />
       <View
         className={
           'flex-1 rounded-3xl ' +
@@ -41,6 +42,7 @@ export default function MealPlanNavTabs({
           Shopping List
         </TextLink>
       </View>
+      <View className="sm:flex-1" />
     </View>
   )
 }
