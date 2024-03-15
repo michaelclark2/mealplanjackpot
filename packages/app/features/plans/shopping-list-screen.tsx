@@ -33,7 +33,7 @@ export function ShoppingListScreen() {
   const toggleItemCompleted = (itemName: string) => {
     let items = shoppingList.completedItems
     if (items.includes(itemName)) {
-      items = items.filter((name) => name !== itemName)
+      items = items.filter((name: string) => name !== itemName)
     } else {
       items.push(itemName)
     }
