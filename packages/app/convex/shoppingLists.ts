@@ -69,15 +69,21 @@ export const createShoppingListByMealPlanId = action({
         }
         groupedIngredientsByName[ingredient.nameClean].push({
           recipeId: ingredient.recipeId,
-          measures: { ...ingredient.measures.us },
+          ...ingredient.measures.us,
         })
         return groupedIngredientsByName
       },
       {} as Record<string, Array<any>>,
     )
+    const shoppingListItems = Object.keys(groupedIngredientsByName).map(
+      (ingredientName) => ({
+        name: ingredientName,
+        measures: groupedIngredientsByName[ingredientName],
+      }),
+    )
     return await ctx.runMutation(internal.shoppingLists.createShoppingList, {
       mealPlanId: mealPlan._id,
-      ingredientsList: groupedIngredientsByName,
+      ingredientsList: shoppingListItems,
     })
   },
 })

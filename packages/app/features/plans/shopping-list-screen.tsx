@@ -1,6 +1,7 @@
 import MealPlanNavTabs, {
   ActiveTabOptions,
 } from 'app/components/MealPlanNavTabs'
+import ShoppingListItem from 'app/components/ShoppingListItem'
 import { api } from 'app/convex/_generated/api'
 import { Id } from 'app/convex/_generated/dataModel'
 import { Text } from 'app/design/typography'
@@ -11,13 +12,6 @@ import { createParam } from 'solito'
 type Params = {
   mealPlanId: string
 }
-
-const toProperCase = (string: string) => {
-  return string.replace(/\w\S*/g, function (txt) {
-    return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase()
-  })
-}
-
 const { useParam, useParams } = createParam<Params>()
 
 export function ShoppingListScreen() {
@@ -50,13 +44,7 @@ export function ShoppingListScreen() {
         activeTab={ActiveTabOptions.list}
       />
       {shoppingList &&
-        Object.keys(shoppingList?.list).map((item) => (
-          <View className="p-2">
-            <Text>
-              {toProperCase(item)}: {shoppingList.list[item]?.length}
-            </Text>
-          </View>
-        ))}
+        shoppingList?.list.map((item) => <ShoppingListItem listItem={item} />)}
     </ScrollView>
   )
 }
