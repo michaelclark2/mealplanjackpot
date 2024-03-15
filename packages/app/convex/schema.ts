@@ -14,11 +14,56 @@ export default defineSchema({
     intolerances: v.array(v.string()),
     isSubscribed: v.boolean(),
   }).index('by_identifier', ['identifier']),
+  shoppingLists: defineTable({
+    identifier: v.string(),
+    mealPlanId: v.id('mealPlans'),
+    list: v.optional(v.any()),
+    completedItems: v.array(v.string()),
+  }).index('by_identifier_and_mealPlanId', ['identifier', 'mealPlanId']),
   mealPlans: defineTable({
     identifier: v.string(),
     recipes: v.array(
       v.object({
         aggregateLikes: v.float64(),
+        likes: v.optional(v.number()),
+        license: v.optional(v.string()),
+        spoonacularSourceUrl: v.optional(v.string()),
+        missedIngredientCount: v.optional(v.number()),
+        missedIngredients: v.optional(v.array(v.any())),
+        usedIngredientCount: v.optional(v.number()),
+        usedIngredients: v.optional(v.array(v.any())),
+        unusedIngredients: v.optional(v.array(v.any())),
+        extendedIngredients: v.array(
+          v.object({
+            aisle: v.optional(v.union(v.string(), v.null())),
+            amount: v.number(),
+            consistency: v.string(),
+            id: v.number(),
+            name: v.string(),
+            nameClean: v.string(),
+            image: v.string(),
+            measures: v.object({
+              metric: v.optional(
+                v.object({
+                  amount: v.number(),
+                  unitLong: v.string(),
+                  unitShort: v.string(),
+                }),
+              ),
+              us: v.optional(
+                v.object({
+                  amount: v.number(),
+                  unitLong: v.string(),
+                  unitShort: v.string(),
+                }),
+              ),
+            }),
+            meta: v.array(v.any()),
+            original: v.string(),
+            originalName: v.string(),
+            unit: v.string(),
+          }),
+        ),
         analyzedInstructions: v.array(
           v.object({
             name: v.string(),

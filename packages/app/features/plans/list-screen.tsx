@@ -6,6 +6,7 @@ import { useRouter } from 'solito/router'
 import { useQuery } from 'convex/react'
 import { api } from 'app/convex/_generated/api'
 import MealPlanRow from 'app/components/MealPlanRow'
+import { Doc } from 'app/convex/_generated/dataModel'
 
 export function MealPlanListScreen() {
   const router = useRouter()
@@ -19,7 +20,9 @@ export function MealPlanListScreen() {
       <View className="min-h-[50%] rounded-3xl bg-slate-200 p-4">
         <SignedIn>
           <View className="">
-            {mealPlans?.map((mealPlan) => <MealPlanRow mealPlan={mealPlan} />)}
+            {mealPlans?.map((mealPlan: Doc<'mealPlans'>) => (
+              <MealPlanRow mealPlan={mealPlan} />
+            ))}
           </View>
         </SignedIn>
         <SignedOut>

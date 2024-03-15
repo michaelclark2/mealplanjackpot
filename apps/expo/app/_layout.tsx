@@ -99,6 +99,22 @@ export default function Root() {
             headerLeft: BackButton,
           }}
         />
+        <Tabs.Screen
+          name="plans/[mealPlanId]/index"
+          options={{
+            href: null,
+            title: 'Meal Plan',
+            headerLeft: BackButton,
+          }}
+        />
+        <Tabs.Screen
+          name="plans/[mealPlanId]/list"
+          options={{
+            href: null,
+            title: 'Shopping List',
+            headerLeft: BackButton,
+          }}
+        />
       </Tabs>
     </Provider>
   )
