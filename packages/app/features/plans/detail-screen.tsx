@@ -1,7 +1,7 @@
 import MealPlanNavTabs, {
   ActiveTabOptions,
 } from 'app/components/MealPlanNavTabs'
-import RecipeCard from 'app/components/RecipeCard'
+import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
 import { api } from 'app/convex/_generated/api'
 import { Id } from 'app/convex/_generated/dataModel'
 import { Text, TextLink } from 'app/design/typography'
@@ -34,7 +34,9 @@ export function MealPlanDetailScreen() {
       />
       <View className="w-full max-w-7xl rounded-3xl bg-slate-200">
         <View className="flex w-full flex-row flex-wrap justify-center p-2">
-          {getMealPlan?.recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
+          {getMealPlan?.recipes.map((recipe: SpoonacularRecipe) => (
+            <RecipeCard recipe={recipe} />
+          ))}
         </View>
       </View>
     </ScrollView>

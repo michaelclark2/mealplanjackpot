@@ -55,6 +55,32 @@ export interface SpoonacularRecipe {
   readyInMinutes: number
   locked?: boolean
   loading?: boolean
+  extendedIngredients: Array<{
+    aisle?: string | null
+    amount: number
+    consistency: string
+    id: number
+    name: string
+    nameClean: string
+    image: string
+    measures: {
+      metric?: {
+        amount: number
+        unitLong: string
+        unitShort: string
+      }
+
+      us?: {
+        amount: number
+        unitLong: string
+        unitShort: string
+      }
+    }
+    meta: Array<any>
+    original: string
+    originalName: string
+    unit: string
+  }>
 }
 
 const RecipeCard = ({

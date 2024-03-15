@@ -1,6 +1,8 @@
 import { v } from 'convex/values'
 import { action, internalMutation, query } from './_generated/server'
 import { api, internal } from './_generated/api'
+import { SpoonacularRecipe } from 'app/components/RecipeCard'
+import { Doc } from './_generated/dataModel'
 
 const PANTRY_INGREDIENT_NAMES = [
   'black pepper',
@@ -38,17 +40,21 @@ export const createShoppingList = internalMutation({
   },
 })
 
+// @ts-ignore
 export const createShoppingListByMealPlanId = action({
   args: { mealPlanId: v.id('mealPlans') },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
     if (identity === null) return
-    const mealPlan = await ctx.runQuery(api.mealPlans.getMealPlan, {
-      mealPlanId: args.mealPlanId,
-    })
+    const mealPlan: Doc<'mealPlans'> = await ctx.runQuery(
+      api.mealPlans.getMealPlan,
+      {
+        mealPlanId: args.mealPlanId,
+      },
+    )
 
     const allIngredients = mealPlan!.recipes
-      .map((recipe) =>
+      .map((recipe: SpoonacularRecipe) =>
         recipe.extendedIngredients.map((ingredient) => ({
           ...ingredient,
           recipeId: recipe.id,
@@ -82,7 +88,7 @@ export const createShoppingListByMealPlanId = action({
       }),
     )
     return await ctx.runMutation(internal.shoppingLists.createShoppingList, {
-      mealPlanId: mealPlan._id,
+      mealPlanId: mealPlan!._id,
       ingredientsList: shoppingListItems,
     })
   },

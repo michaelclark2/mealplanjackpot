@@ -1,10 +1,9 @@
 import MealPlanNavTabs, {
   ActiveTabOptions,
 } from 'app/components/MealPlanNavTabs'
-import ShoppingListItem from 'app/components/ShoppingListItem'
+import ShoppingListItem, { ListItem } from 'app/components/ShoppingListItem'
 import { api } from 'app/convex/_generated/api'
-import { Id } from 'app/convex/_generated/dataModel'
-import { Text } from 'app/design/typography'
+import { Doc, Id } from 'app/convex/_generated/dataModel'
 import { ScrollView, View } from 'app/design/view'
 import { useAction, useQuery } from 'convex/react'
 import { useEffect } from 'react'
@@ -45,8 +44,8 @@ export function ShoppingListScreen() {
       />
       <View className="w-full md:w-4/5 lg:w-1/2">
         {shoppingList &&
-          shoppingList?.list.map((item) => (
-            <ShoppingListItem listItem={item} />
+          shoppingList?.list.map((item: ListItem) => (
+            <ShoppingListItem listItem={item} updateShoppingList={() => {}} />
           ))}
       </View>
     </ScrollView>

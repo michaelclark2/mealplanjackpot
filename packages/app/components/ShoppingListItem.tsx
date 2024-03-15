@@ -4,6 +4,16 @@ import { View } from 'app/design/view'
 import Square from 'app/icons/Square'
 import SquareCheck from 'app/icons/SquareCheck'
 
+export type ListItem = {
+  name: string
+  measures: Array<{
+    amount: number
+    unitShort: string
+    unitLong: string
+    recipeId: number
+  }>
+}
+
 export default function ShoppingListItem({
   listItem,
   updateShoppingList,
@@ -11,15 +21,7 @@ export default function ShoppingListItem({
 }: {
   updateShoppingList: (itemName: string) => void
   isCompleted?: boolean
-  listItem: {
-    name: string
-    measures: Array<{
-      amount: number
-      unitShort: string
-      unitLong: string
-      recipeId: number
-    }>
-  }
+  listItem: ListItem
 }) {
   return (
     <View className="my-2 flex flex-row items-center justify-between rounded-full bg-slate-200 p-2">
