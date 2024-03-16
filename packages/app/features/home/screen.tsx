@@ -56,7 +56,7 @@ export function HomeScreen() {
   }, [])
 
   const saveRecipeSession = (recipes: Array<SpoonacularRecipe>) => {
-    const storageExpirationMinutes = 1
+    const storageExpirationMinutes = 30
     const now = new Date()
     now.setMinutes(now.getMinutes() + storageExpirationMinutes)
     const expiredTimeStamp = Math.floor(now.getTime() / 1000)
