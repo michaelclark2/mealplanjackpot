@@ -182,8 +182,10 @@ export function HomeScreen() {
         </View>
       </View>
       {recipes?.length > 0 && (
-        <View className="ml-auto">
-          <Legend />
+        <View className="w-full max-w-7xl">
+          <View className="ml-auto">
+            <Legend />
+          </View>
         </View>
       )}
       <View className="mt-8 w-full max-w-7xl flex-1 flex-col items-center justify-between">
