@@ -1,7 +1,7 @@
 import { H2, P, Text } from 'app/design/typography'
 import { Button, Pressable, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { useAuth } from '@clerk/clerk-react'
@@ -28,7 +28,21 @@ export function HomeScreen() {
   const lockedRecipeCount = lockedRecipes.length
   const userSettings = useQuery(api.settings.getUserSettings, {})
 
+  const scrollRef = useRef()
+
+  const scrollToTop = () => {
+    if (Platform.OS === 'web') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      scrollRef.current?.scrollTo({
+        y: 0,
+        animated: true,
+      })
+    }
+  }
+
   const getRandomRecipes = async () => {
+    scrollToTop()
     const { numberOfRecipes } = userSettings as Doc<'userSettings'>
     const numberOfRecipesToSpin = numberOfRecipes - lockedRecipeCount
 
@@ -132,6 +146,9 @@ export function HomeScreen() {
 
   return (
     <ScrollView
+      ref={scrollRef}
+      scrollEnabled
+      scrollsToTop
       accessibilityRole="main"
       className="p-4 md:p-8"
       contentContainerStyle={{
