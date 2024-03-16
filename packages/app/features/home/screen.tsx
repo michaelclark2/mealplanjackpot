@@ -10,7 +10,7 @@ import { Icon } from 'react-native-eva-icons'
 import colors from 'tailwindcss/colors'
 import { api } from 'app/convex/_generated/api'
 import * as Burnt from 'burnt'
-import { Platform } from 'react-native'
+import { Platform, ScrollView as NativeScrollView } from 'react-native'
 import { Doc } from 'app/convex/_generated/dataModel'
 import Legend from 'app/components/BadgeLegend'
 
@@ -28,7 +28,7 @@ export function HomeScreen() {
   const lockedRecipeCount = lockedRecipes.length
   const userSettings = useQuery(api.settings.getUserSettings, {})
 
-  const scrollRef = useRef()
+  const scrollRef = useRef<NativeScrollView>()
 
   const scrollToTop = () => {
     if (Platform.OS === 'web') {
