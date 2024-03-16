@@ -1,7 +1,7 @@
 import { H2, P, Text } from 'app/design/typography'
 import { Button, Pressable, SpinButton } from 'app/design/button'
 import { View, ScrollView } from 'app/design/view'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import RecipeCard, { SpoonacularRecipe } from 'app/components/RecipeCard'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { useAuth } from '@clerk/clerk-react'
@@ -13,6 +13,7 @@ import * as Burnt from 'burnt'
 import { Platform, ScrollView as NativeScrollView } from 'react-native'
 import { Doc } from 'app/convex/_generated/dataModel'
 import Legend from 'app/components/BadgeLegend'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function HomeScreen() {
   const { isAuthenticated } = useConvexAuth()
@@ -39,6 +40,30 @@ export function HomeScreen() {
         animated: true,
       })
     }
+  }
+
+  useEffect(() => {
+    AsyncStorage.getItem('recipes').then((data) => {
+      const { recipes, expiryTime } = JSON.parse(data!)
+      const currentTimeStamp = Math.floor(Date.now() / 1000)
+
+      if (currentTimeStamp >= expiryTime) {
+        AsyncStorage.removeItem('recipes')
+        return
+      }
+      setRecipes(recipes)
+    })
+  }, [])
+
+  const saveRecipeSession = (recipes: Array<SpoonacularRecipe>) => {
+    const storageExpirationMinutes = 1
+    const now = new Date()
+    now.setMinutes(now.getMinutes() + storageExpirationMinutes)
+    const expiredTimeStamp = Math.floor(now.getTime() / 1000)
+    AsyncStorage.setItem(
+      'recipes',
+      JSON.stringify({ expiryTime: expiredTimeStamp, recipes }),
+    )
   }
 
   const getRandomRecipes = async () => {
@@ -84,6 +109,7 @@ export function HomeScreen() {
         })
         setRecipes(newRecipes)
         setIsError(false)
+        saveRecipeSession(newRecipes)
       }
 
       if (response.status === 429) {
@@ -102,6 +128,7 @@ export function HomeScreen() {
       const newRecipes = [...recipes]
       newRecipes[recipeIndex].locked = !newRecipes[recipeIndex].locked
       setRecipes(newRecipes)
+      saveRecipeSession(newRecipes)
     }
   }
 

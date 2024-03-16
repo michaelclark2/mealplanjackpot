@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@clerk/clerk-expo": "^0.20.1",
+    "@react-native-async-storage/async-storage": "^1.22.3",
     "app": "*",
     "burnt": "^0.12.2",
     "expo": "^49.0.0",
