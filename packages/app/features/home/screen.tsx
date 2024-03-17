@@ -44,7 +44,9 @@ export function HomeScreen() {
 
   useEffect(() => {
     AsyncStorage.getItem('recipes').then((data) => {
+      if (data === null) return
       const { recipes, expiryTime } = JSON.parse(data!)
+
       const currentTimeStamp = Math.floor(Date.now() / 1000)
 
       if (currentTimeStamp >= expiryTime) {
@@ -142,6 +144,7 @@ export function HomeScreen() {
           preset: 'done',
         })
         setRecipes([])
+        saveRecipeSession([])
       }
     } else if (!isAuthenticated && readyToSave) {
       await Burnt.toast({
