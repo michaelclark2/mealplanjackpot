@@ -114,7 +114,7 @@ export default defineSchema({
         glutenFree: v.boolean(),
         healthScore: v.float64(),
         id: v.float64(),
-        image: v.union(v.string(), v.null()),
+        image: v.string(),
         imageType: v.string(),
         locked: v.optional(v.boolean()),
         lowFodmap: v.boolean(),
