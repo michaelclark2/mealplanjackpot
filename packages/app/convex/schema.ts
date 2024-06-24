@@ -119,7 +119,7 @@ export default defineSchema({
         locked: v.optional(v.boolean()),
         lowFodmap: v.boolean(),
         occasions: v.array(v.string()),
-        preparationMinutes: v.float64(),
+        preparationMinutes: v.union(v.null(), v.float64()),
         pricePerServing: v.float64(),
         readyInMinutes: v.float64(),
         servings: v.float64(),
