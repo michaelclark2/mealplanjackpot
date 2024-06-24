@@ -9,7 +9,7 @@ const nextConfig = {
   // once that gets fixed, set this back to true
   reactStrictMode: false,
   images: {
-    domains: ['spoonacular.com'],
+    domains: ['img.spoonacular.com'],
   },
   transpilePackages: [
     'react-native',
